@@ -2,10 +2,26 @@
 //
 
 #include <iostream>
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    cout << "Welcome to C++ forum" << endl;
+    cout << "1. Log in" << endl;
+    cout << "2. Sign up" << endl;
+    cout << "0. Exit program" << endl;
+    string option;
+    cout << "Enter an option: ";
+    cin >> option;
+    if (option == "1") {
+        cout << "Log in" << endl;
+    }
+    else if (option == "2") {
+        cout << "Sign up" << endl;
+    }
+    else if (option == "0") {
+        cout << "Exit program" << endl;
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
