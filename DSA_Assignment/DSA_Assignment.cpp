@@ -3,13 +3,23 @@
 
 #include <iostream>
 using namespace std;
+#include "Topic.h"
+#include "Dictionary.h"
+
+void displayMainMenu()
+{
+    cout << "\n---------------- Main Menu -------------------" << endl;
+    cout << "Welcome to C++ forum" << endl;
+    cout << "[1] Log in" << endl;
+    cout << "[2] Sign up" << endl;
+    cout << "[0] Exit program" << endl;
+    cout << "----------------------------------------------\n" << endl;
+}
+
 
 int main()
 {
-    cout << "Welcome to C++ forum" << endl;
-    cout << "1. Log in" << endl;
-    cout << "2. Sign up" << endl;
-    cout << "0. Exit program" << endl;
+    displayMainMenu();
     string option;
     cout << "Enter an option: ";
     cin >> option;
