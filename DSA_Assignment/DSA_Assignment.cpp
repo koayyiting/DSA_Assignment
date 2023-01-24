@@ -6,31 +6,76 @@ using namespace std;
 #include "Topic.h"
 #include "Dictionary.h"
 
-void displayMainMenu()
+string displayMainMenu()
 {
-    cout << "\n---------------- Main Menu -------------------" << endl;
+    cout << "\n----------------- Main Menu -----------------" << endl;
     cout << "Welcome to C++ forum" << endl;
     cout << "[1] Log in" << endl;
     cout << "[2] Sign up" << endl;
     cout << "[0] Exit program" << endl;
-    cout << "----------------------------------------------\n" << endl;
+    cout << "---------------------------------------------\n" << endl;
+
+    string option;
+    cout << "Enter an option: ";
+    cin >> option;
+    return option;
+}
+
+string displayForumMenu() 
+{
+    cout << "\n------------------- Forum -------------------" << endl;
+    //list all the topics and posts
+    cout << "---------------------------------------------" << endl;
+    cout << "[1] Create new topic" << endl;
+    cout << "[2] Choose a topic" << endl;
+    cout << "[3] Your post(s)" << endl;
+    cout << "[0] Exit" << endl;
+    cout << "---------------------------------------------\n" << endl;
+
+    string option;
+    cout << "Enter an option: ";
+    cin >> option;
+    return option;
+}
+
+void createNewTopic() 
+{
+    //create new topic
 }
 
 
 int main()
 {
-    displayMainMenu();
-    string option;
-    cout << "Enter an option: ";
-    cin >> option;
-    if (option == "1") {
+    string mainMenuOption = displayMainMenu();
+    if (mainMenuOption == "1") {
         cout << "Log in" << endl;
+        string forumMenuOption = displayForumMenu();
+        if (forumMenuOption == "1") {
+            //create new topic
+        }
+        else if(forumMenuOption == "2")
+        {
+            //choose a topic to see
+        }
+        else if (forumMenuOption == "3") 
+        {
+            //see user's posts
+        }
+        else if (forumMenuOption == "0") {
+            //Exit
+        }
+        else {
+            //ask for valid option
+        }
     }
-    else if (option == "2") {
+    else if (mainMenuOption == "2") {
         cout << "Sign up" << endl;
     }
-    else if (option == "0") {
+    else if (mainMenuOption == "0") {
         cout << "Exit program" << endl;
+    }
+    else {
+        cout << "Please enter a valid option" << endl;
     }
 }
 
