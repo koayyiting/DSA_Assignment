@@ -21,6 +21,24 @@ string displayMainMenu()
     return option;
 }
 
+void signup()
+{
+    string email;
+    string username;
+    string password;
+    cout << "\n------------------ Sign Up ------------------" << endl;
+    cout << "Please enter your email: "; //need check for duplicate email, one person only can create one acc
+    cin.ignore();
+    getline(cin, email);
+    cout << email << endl;
+    cout << "Please enter your username: "; //need check for duplicate username
+    getline(cin, username);
+    cout << username << endl;
+    cout << "Please enter your password: "; //if got time do confirm password 
+    getline(cin, password);
+    cout << password << endl;
+}
+
 string displayForumMenu() 
 {
     cout << "\n------------------- Forum -------------------" << endl;
@@ -40,7 +58,7 @@ string displayForumMenu()
 
 void createNewTopic() 
 {
-    //create new topic
+	cout << "\n------------------ Create Topic ------------------" << endl;
 }
 
 
@@ -70,6 +88,7 @@ int main()
     }
     else if (mainMenuOption == "2") {
         cout << "Sign up" << endl;
+        signup();
     }
     else if (mainMenuOption == "0") {
         cout << "Exit program" << endl;
