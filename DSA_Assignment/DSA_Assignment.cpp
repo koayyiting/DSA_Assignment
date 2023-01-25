@@ -58,7 +58,10 @@ string displayForumMenu()
 
 void createNewTopic() 
 {
-	cout << "\n------------------ Create Topic ------------------" << endl;
+    string topicName;
+	cout << "\n--------------- Create Topic ----------------" << endl;
+    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
+    cin >> topicName;
 }
 
 
@@ -69,7 +72,7 @@ int main()
         cout << "Log in" << endl;
         string forumMenuOption = displayForumMenu();
         if (forumMenuOption == "1") {
-            //create new topic
+            createNewTopic()
         }
         else if(forumMenuOption == "2")
         {
