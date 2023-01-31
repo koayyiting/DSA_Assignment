@@ -7,12 +7,15 @@ class Topic
 {
     // data (properties)
 private:
+    string topicId;
     string title;
     // functions (methods)
 public:
-    Topic();	            // default constructor
-    Topic(string);	        // parameterized constructor
-    void setTopic(string);	// set name
-    string getTopic();		// get name
+    Topic();	                    // default constructor
+    Topic(string, string);	        // parameterized constructor
+    void setTopicId(string);        // set topic id
+    string getTopicId();            // get topic id
+    void setTopicTitle(string);     // set topic name
+    string getTopicTitle();         // get topic name
 };
 
