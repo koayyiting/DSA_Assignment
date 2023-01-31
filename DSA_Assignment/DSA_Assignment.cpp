@@ -4,91 +4,77 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include <sstream>
 #include "Topic.h"
 #include "Dictionary.h"
 #include "Account.h"
+#include "List.h"
 
 using namespace std;
 
+TItemType topic;
 Dictionary d;
+List topicList;
 
-void displayMainMenu();
+string displayMainMenu();
+string displayForumMenu();
 void login();
 void signup();
+void createNewTopic();
+void printTopicList(List tlist);
 
 int main()
 {
-    bool status = true;
-    while (status)
-    {
-        displayMainMenu();
-        string mainMenuOption;
-        cout << "Enter an option: ";
-        cin >> mainMenuOption;
-
-        if (mainMenuOption == "1") //login
-        {
+    bool status1 = true;
+    bool status2 = true;
+    while (status1) {
+        string mainMenuOption = displayMainMenu();
+        if (mainMenuOption == "1") {
             login();
-            break;
+            status1 = false;
         }
-        else if (mainMenuOption == "2") //signup
-        {
+        else if (mainMenuOption == "2") {
             signup();
-            break;
-        }
-        else if (mainMenuOption == "3")//see registered accounts, delete ltr
-        {
-            d.print();
+            //status1 remain true so can loop for main menu option
         }
         else if (mainMenuOption == "0") {
-            cout << "Exit program" << endl;
-            status = false;
+            //exit
+            status2 = false;
+            cout << "Exiting the program. Byebye!" << endl;
+            break;
         }
         else {
+            cout << "Please enter a valid option" << endl;
+            //status1 remain true so can loop for main menu option
+        }
+    }
+    while (status2) {
+        string forumMenuOption = displayForumMenu();
+        if (forumMenuOption == "1") {
+            createNewTopic();
+        }
+        else if (forumMenuOption == "2")
+        {
+            //choose a topic to see
+        }
+        else if (forumMenuOption == "3")
+        {
+            //see user's posts
+        }
+        else if (forumMenuOption == "0") {
+            //Exit
             system("cls");
+            cout << "Logged Out" << endl;
+            status2 = false;
+        }
+        else {
+            //ask for valid option
             cout << "Please enter a valid option" << endl;
         }
-
     }
-
-
-    //string mainMenuOption = displayMainMenu();
-    //if (mainMenuOption == "1") //login
-    //{
-    //    login();
-    //    string forumMenuOption = displayForumMenu();
-    //    if (forumMenuOption == "1") {
-    //        createNewTopic();
-    //    }
-    //    else if(forumMenuOption == "2")
-    //    {
-    //        //choose a topic to see
-    //    }
-    //    else if (forumMenuOption == "3") 
-    //    {
-    //        //see user's posts
-    //    }
-    //    else if (forumMenuOption == "0") {
-    //        //Exit
-    //    }
-    //    else {
-    //        //ask for valid option
-    //    }
-    //}
-    //else if (mainMenuOption == "2") //signup
-    //{
-    //    signup();
-    //    displayMainMenu();
-    //}
-    //else if (mainMenuOption == "0") {
-    //    cout << "Exit program" << endl;
-    //}
-    //else {
-    //    cout << "Please enter a valid option" << endl;
-    //}
 }
 
-void displayMainMenu()
+string displayMainMenu()
 {
     cout << "\n----------------- Main Menu -----------------" << endl;
     cout << "Welcome to C++ forum" << endl;
@@ -98,10 +84,11 @@ void displayMainMenu()
     cout << "[0] Exit program" << endl;
     cout << "---------------------------------------------\n" << endl;
 
-    /*string option;
+    //user main menu option
+    string option;
     cout << "Enter an option: ";
     cin >> option;
-    return option;*/
+    return option;
 }
 
 void login() 
@@ -147,7 +134,8 @@ void login()
     {
         cout << "Incorrect username or password." << endl;
     }
-
+    system("cls");
+    cout << "Logged In as " << username << endl;
 }
 
 void signup()
@@ -162,7 +150,6 @@ void signup()
     getline(cin, username);
     cout << "Please enter your password: "; //if got time do confirm password 
     getline(cin, password);
-    
     Account acc(username, password);
     d.add(username, password);
 
@@ -175,30 +162,76 @@ void signup()
 
 string displayForumMenu() 
 {
-    cout << "\n------------------- Forum -------------------" << endl;
+    cout << "\n------------------- Forum -------------------\n" << endl;
+    if (topicList.isEmpty()) 
+    {
+        cout << "No Topic Created" << endl;
+    }
+    else { printTopicList(topicList); }
+
     //list all the topics and posts
-    cout << "---------------------------------------------" << endl;
+    cout << "\n---------------------------------------------" << endl;
     cout << "[1] Create new topic" << endl;
     cout << "[2] Choose a topic" << endl;
     cout << "[3] Your post(s)" << endl;
     cout << "[0] Exit" << endl;
     cout << "---------------------------------------------\n" << endl;
 
+    //user forum menu option
     string option;
     cout << "Enter an option: ";
     cin >> option;
+    system("cls");
     return option;
 }
 
 void createNewTopic() 
 {
-    string topicName;
+    string topicTitle;
+
+    //check if topic list is empty
+    if (!topicList.isEmpty()) {
+        cout << "Existing Topics:" << endl;
+    }
+    printTopicList(topicList);
 	cout << "\n--------------- Create Topic ----------------" << endl;
+
+    //create topic object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
-    cin >> topicName;
+    getline(cin, topicTitle);
+
+    //check for duplicate topic title
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+        if (topicTitle == topic.getTopicTitle()) {
+            cout << "You have entered a Existing Topic Title" << endl;
+            return;
+        }
+    }
+
+    //continue to create a topic object
+    int topicId = topicList.getLength();
+    string id;
+    stringstream ss;
+    ss << topicId;
+    ss >> id;
+    Topic newTopic(id, topicTitle);
+    topicList.add(newTopic);
+    system("cls");
+    #pragma region link on how to use for stringstream
+    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
+    #pragma endregion
 }
 
-
+void printTopicList(List tlist) 
+{
+    for (int i = 0; i < tlist.getLength(); i++)
+    {
+        topic = tlist.get(i);
+        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
+    }
+}
 
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
