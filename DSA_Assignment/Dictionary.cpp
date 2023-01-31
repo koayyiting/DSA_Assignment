@@ -123,19 +123,23 @@ void Dictionary::remove(KeyType key)
 
 ItemType Dictionary::get(KeyType key)
 {
-	int index = hash(key);
-	if (items[index] != NULL)
+	if (!isEmpty()) 
 	{
-		Node* temp = items[index];
-		return temp->item;
+		int index = hash(key);
+		if (items[index] != NULL)
+		{
+			Node* temp = items[index];
+			return temp->item;
+		}
 	}
+	
 };
 
 void Dictionary::print()
 {
 	if (!isEmpty())
 	{
-		cout << "\nPhone List:" << endl;
+		cout << "\n List:" << endl;
 		for (int i = 0; i < MAX_SIZE; i++)
 		{
 			Node* temp = items[i];
