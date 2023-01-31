@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Account.cpp" />
     <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="DSA_Assignment.cpp" />
     <ClCompile Include="Topic.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Account.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Topic.h" />
   </ItemGroup>

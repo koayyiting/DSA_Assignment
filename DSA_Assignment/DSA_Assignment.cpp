@@ -2,41 +2,175 @@
 //
 
 #include <iostream>
-using namespace std;
+#include <string.h>
+#include <fstream>
 #include "Topic.h"
 #include "Dictionary.h"
+#include "Account.h"
 
-string displayMainMenu()
+using namespace std;
+
+Dictionary d;
+
+void displayMainMenu();
+void login();
+void signup();
+
+int main()
+{
+    bool status = true;
+    while (status)
+    {
+        displayMainMenu();
+        string mainMenuOption;
+        cout << "Enter an option: ";
+        cin >> mainMenuOption;
+
+        if (mainMenuOption == "1") //login
+        {
+            login();
+            break;
+        }
+        else if (mainMenuOption == "2") //signup
+        {
+            signup();
+            break;
+        }
+        else if (mainMenuOption == "3")//see registered accounts, delete ltr
+        {
+            d.print();
+        }
+        else if (mainMenuOption == "0") {
+            cout << "Exit program" << endl;
+            status = false;
+        }
+        else {
+            system("cls");
+            cout << "Please enter a valid option" << endl;
+        }
+
+    }
+
+
+    //string mainMenuOption = displayMainMenu();
+    //if (mainMenuOption == "1") //login
+    //{
+    //    login();
+    //    string forumMenuOption = displayForumMenu();
+    //    if (forumMenuOption == "1") {
+    //        createNewTopic();
+    //    }
+    //    else if(forumMenuOption == "2")
+    //    {
+    //        //choose a topic to see
+    //    }
+    //    else if (forumMenuOption == "3") 
+    //    {
+    //        //see user's posts
+    //    }
+    //    else if (forumMenuOption == "0") {
+    //        //Exit
+    //    }
+    //    else {
+    //        //ask for valid option
+    //    }
+    //}
+    //else if (mainMenuOption == "2") //signup
+    //{
+    //    signup();
+    //    displayMainMenu();
+    //}
+    //else if (mainMenuOption == "0") {
+    //    cout << "Exit program" << endl;
+    //}
+    //else {
+    //    cout << "Please enter a valid option" << endl;
+    //}
+}
+
+void displayMainMenu()
 {
     cout << "\n----------------- Main Menu -----------------" << endl;
     cout << "Welcome to C++ forum" << endl;
     cout << "[1] Log in" << endl;
     cout << "[2] Sign up" << endl;
+    cout << "[3] View Dictionary (delete ltr)" << endl;
     cout << "[0] Exit program" << endl;
     cout << "---------------------------------------------\n" << endl;
 
-    string option;
+    /*string option;
     cout << "Enter an option: ";
     cin >> option;
-    return option;
+    return option;*/
+}
+
+void login() 
+{
+    int count;
+    string username, password;
+    string userId, pwd;
+
+    cout << "\n------------------- Log In -------------------" << endl;
+    cout << "Username: ";//check if username exists
+    cin.ignore();
+    getline(cin, username);
+    cout << "Password: ";
+    getline(cin, password);
+
+    /*ifstream input("accounts.txt");
+
+    while (input >> userId >> pwd) 
+    {
+        if (userId == username && pwd == password) 
+        {
+            count = 1;
+            system("cls");
+        }
+        input.close();
+
+        if (count == 1) {
+            cout << "Login Successful. Welcome, " << username << endl;
+            main();
+        }
+        else 
+        {
+            cout << "Incorrect username or password." << endl;
+            main();
+        }
+    }*/
+
+    if (d.get(username) == password) //authenticate user -> correct password
+    {
+        cout << "yay" << endl;
+    }
+    else //either username doesn't exist or wrong password
+    {
+        cout << "Incorrect username or password." << endl;
+    }
+
 }
 
 void signup()
 {
-    string email;
-    string username;
-    string password;
+    string username, password;
+    //string userId, pwd;
+
+    system("cls");
     cout << "\n------------------ Sign Up ------------------" << endl;
-    cout << "Please enter your email: "; //need check for duplicate email, one person only can create one acc
-    cin.ignore();
-    getline(cin, email);
-    cout << email << endl;
     cout << "Please enter your username: "; //need check for duplicate username
+    cin.ignore();
     getline(cin, username);
-    cout << username << endl;
     cout << "Please enter your password: "; //if got time do confirm password 
     getline(cin, password);
-    cout << password << endl;
+    
+    Account acc(username, password);
+    d.add(username, password);
+
+    /*ofstream f1("accounts.txt", ios::app);
+    f1 << userId << ' ' << pwd << endl;*/
+    system("cls");
+    cout << "Sign Up is successfull!" << endl;
+    main();    
 }
 
 string displayForumMenu() 
@@ -65,41 +199,7 @@ void createNewTopic()
 }
 
 
-int main()
-{
-    string mainMenuOption = displayMainMenu();
-    if (mainMenuOption == "1") {
-        cout << "Log in" << endl;
-        string forumMenuOption = displayForumMenu();
-        if (forumMenuOption == "1") {
-            createNewTopic()
-        }
-        else if(forumMenuOption == "2")
-        {
-            //choose a topic to see
-        }
-        else if (forumMenuOption == "3") 
-        {
-            //see user's posts
-        }
-        else if (forumMenuOption == "0") {
-            //Exit
-        }
-        else {
-            //ask for valid option
-        }
-    }
-    else if (mainMenuOption == "2") {
-        cout << "Sign up" << endl;
-        signup();
-    }
-    else if (mainMenuOption == "0") {
-        cout << "Exit program" << endl;
-    }
-    else {
-        cout << "Please enter a valid option" << endl;
-    }
-}
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
