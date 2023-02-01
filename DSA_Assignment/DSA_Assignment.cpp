@@ -4,23 +4,28 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
-#include <sstream>
+#include <vector>
+//#include <sstream>
+#include <ctime>
 #include "Topic.h"
 #include "Dictionary.h"
 #include "Account.h"
 #include "List.h"
+#include "Post.h"
 
 using namespace std;
 
 TItemType topic;
 Dictionary d;
 List topicList;
+vector<Post> postList;
 
 string displayMainMenu();
 string displayForumMenu();
 void login();
 void signup();
 void createNewTopic();
+void createPost();
 void printTopicList(List tlist);
 
 int main()
@@ -34,6 +39,10 @@ int main()
             status1 = false;
         }
         else if (mainMenuOption == "2") {
+            signup();
+            //status1 remain true so can loop for main menu option
+        }
+        else if (mainMenuOption == "3") {
             signup();
             //status1 remain true so can loop for main menu option
         }
@@ -56,6 +65,8 @@ int main()
         else if (forumMenuOption == "2")
         {
             //choose a topic to see
+            //if wna create post
+            createPost();
         }
         else if (forumMenuOption == "3")
         {
@@ -80,7 +91,6 @@ string displayMainMenu()
     cout << "Welcome to C++ forum" << endl;
     cout << "[1] Log in" << endl;
     cout << "[2] Sign up" << endl;
-    cout << "[3] View Dictionary (delete ltr)" << endl;
     cout << "[0] Exit program" << endl;
     cout << "---------------------------------------------\n" << endl;
 
@@ -174,7 +184,7 @@ string displayForumMenu()
     cout << "[1] Create new topic" << endl;
     cout << "[2] Choose a topic" << endl;
     cout << "[3] Your post(s)" << endl;
-    cout << "[0] Exit" << endl;
+    cout << "[0] Log out" << endl;
     cout << "---------------------------------------------\n" << endl;
 
     //user forum menu option
@@ -212,13 +222,19 @@ void createNewTopic()
 
     //continue to create a topic object
     int topicId = topicList.getLength();
+    
+    Topic newTopic(topicTitle);
+    topicList.add(newTopic);
+    system("cls");
+
+    #pragma region topic id
+    /*Topic newTopic(id,topicTitle);
     string id;
     stringstream ss;
     ss << topicId;
-    ss >> id;
-    Topic newTopic(id, topicTitle);
-    topicList.add(newTopic);
-    system("cls");
+    ss >> id;*/
+    #pragma endregion
+
     #pragma region link on how to use for stringstream
     //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
     #pragma endregion
@@ -231,6 +247,29 @@ void printTopicList(List tlist)
         topic = tlist.get(i);
         cout << i + 1 << ". " << topic.getTopicTitle() << endl;
     }
+}
+
+void createPost() 
+{
+    string postTitle;
+    string content;
+    time_t postTime;
+
+    cout << "\n--------------- Create Topic ----------------" << endl;
+
+    //create topic object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a Post title: "; 
+    getline(cin, postTitle);
+
+    cout << "Enter your post Content: ";
+    getline(cin, content);
+
+    time_t now = time(0);
+
+    Post newPost(postTitle, content, now);
+    postList.push_back(newPost);
+    system("cls");
 }
 
 
