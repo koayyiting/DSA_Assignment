@@ -1,5 +1,9 @@
+//============================================================
+// Student Name & ID : Ng Zi Yi (S10222211K), Koay Yi Ting (S10221765G) 
+//      Module Group : P03
+//       Team Number : Team 8
+//===========================================================
 // DSA_Assignment.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include <string.h>
@@ -141,6 +145,7 @@ int main()
     }
 }
 
+// Displays the main menu and returns user's option
 string displayMainMenu()
 {
     cout << "\n----------------- Main Menu -----------------" << endl;
@@ -159,6 +164,7 @@ string displayMainMenu()
     return option;
 }
 
+// Allow users to login. return true if successful login, returns false if login fails.
 bool login() 
 {
     string username, password;
@@ -187,6 +193,7 @@ bool login()
     }
 }
 
+// Allows user to register for an account, checks for duplicate username and writes account info to txt file upon successful registration
 void signup()
 {
     string username, password;
@@ -220,6 +227,7 @@ void signup()
     cout << "Sign up is successfull!" << endl;
 }
 
+// Displays forum menu and returns user's option
 string displayForumMenu() 
 {
     cout << "\n------------------- Forum -------------------\n" << endl;
@@ -245,6 +253,7 @@ string displayForumMenu()
     return option;
 }
 
+// Allows users to create a new topic, checks for duplicate topic title and saves to txt file upon successful creation
 void createNewTopic() 
 {
     string topicTitle;
