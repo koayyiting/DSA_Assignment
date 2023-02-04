@@ -135,6 +135,19 @@ ItemType Dictionary::get(KeyType key)
 	
 };
 
+bool Dictionary::find(KeyType key) 
+{
+	int index = hash(key);
+	Node* current = items[index];
+	while (current != NULL) {
+		if (current->key == key) {
+			return true;
+		}
+		current = current->next;
+	}
+	return false;
+}
+
 void Dictionary::print()
 {
 	if (!isEmpty())

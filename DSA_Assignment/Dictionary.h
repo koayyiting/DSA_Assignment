@@ -63,6 +63,8 @@ public:
 	// return the number of items in the Dictionary
 	int getLength();
 
+	// find item with the specified key from the Dictionary
+	bool find(KeyType key);
 	//------------------- Other useful functions -----------------
 
 	// display the items in the Dictionary
