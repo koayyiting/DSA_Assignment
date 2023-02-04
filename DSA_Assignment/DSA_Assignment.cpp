@@ -137,8 +137,15 @@ bool login()
     cin >> password;
 
     if (d.find(username)) {
-        cout << "\nLogin Successful. Welcome, " << username << endl;
-        return true;
+        if (d.get(username) == password) {
+            cout << "\nLogin Successful. Welcome, " << username << endl;
+            return true;
+        }
+        else 
+        {
+            cout << "Incorrect username or password." << endl;
+            return false;
+        }
     }
     else {
         cout << "Incorrect username or password." << endl;
