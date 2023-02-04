@@ -5,7 +5,7 @@
 #include <string.h>
 #include <fstream>
 #include <vector>
-//#include <sstream>
+#include <sstream>
 #include <ctime>
 #include "Topic.h"
 #include "Dictionary.h"
@@ -22,7 +22,7 @@ vector<Post> postList;
 
 string displayMainMenu();
 string displayForumMenu();
-void login();
+bool login();
 void signup();
 void createNewTopic();
 void createPost();
@@ -30,27 +30,49 @@ void printTopicList(List tlist);
 
 int main()
 {
+    string username;
+    string password;
+    ifstream accFile("accounts.txt");
+    // Check if the file is open
+    if (accFile.is_open())
+    {
+        // Read the file line by line
+        while (accFile >> username >> password)
+        {
+            // Add the username and password to the dictionary
+            d.add(username, password);
+        }
+        // Close the file
+        accFile.close();
+    }
+
+
     bool status1 = true;
     bool status2 = true;
     while (status1) {
         string mainMenuOption = displayMainMenu();
         if (mainMenuOption == "1") {
-            login();
-            status1 = false;
+            if (login() == true) {
+                status1 = false;
+            }
+            else {
+                status1 = false;
+                status2 = false;
+                main();
+            }
         }
         else if (mainMenuOption == "2") {
             signup();
             //status1 remain true so can loop for main menu option
         }
         else if (mainMenuOption == "3") {
-            signup();
-            //status1 remain true so can loop for main menu option
+            d.print();
         }
         else if (mainMenuOption == "0") {
             //exit
             status2 = false;
             cout << "Exiting the program. Byebye!" << endl;
-            break;
+            exit(0);//use this instead of break
         }
         else {
             cout << "Please enter a valid option" << endl;
@@ -91,6 +113,7 @@ string displayMainMenu()
     cout << "Welcome to C++ forum" << endl;
     cout << "[1] Log in" << endl;
     cout << "[2] Sign up" << endl;
+    cout << "[3] print accounts (delete ltr)" << endl;
     cout << "[0] Exit program" << endl;
     cout << "---------------------------------------------\n" << endl;
 
@@ -98,76 +121,137 @@ string displayMainMenu()
     string option;
     cout << "Enter an option: ";
     cin >> option;
+    cin.ignore();//dont delete i need
     return option;
 }
 
-void login() 
+bool login() 
 {
-    int count;
     string username, password;
-    string userId, pwd;
 
     cout << "\n------------------- Log In -------------------" << endl;
     cout << "Username: ";//check if username exists
-    cin.ignore();
+    
     getline(cin, username);
     cout << "Password: ";
-    getline(cin, password);
+    cin >> password;
 
-    /*ifstream input("accounts.txt");
-
-    while (input >> userId >> pwd) 
-    {
-        if (userId == username && pwd == password) 
-        {
-            count = 1;
-            system("cls");
-        }
-        input.close();
-
-        if (count == 1) {
-            cout << "Login Successful. Welcome, " << username << endl;
-            main();
-        }
-        else 
-        {
-            cout << "Incorrect username or password." << endl;
-            main();
-        }
-    }*/
-
-    if (d.get(username) == password) //authenticate user -> correct password
-    {
-        cout << "yay" << endl;
+    if (d.find(username)) {
+        cout << "\nLogin Successful. Welcome, " << username << endl;
+        return true;
     }
-    else //either username doesn't exist or wrong password
-    {
+    else {
         cout << "Incorrect username or password." << endl;
+        return false;
     }
-    system("cls");
-    cout << "Logged In as " << username << endl;
+
+    /*string fileUsername, filePassword;
+    ifstream accFile("accounts.txt");
+    if (accFile.is_open()) {
+        while (accFile >> fileUsername >> filePassword) {
+            if (username == fileUsername && password == filePassword) {
+                accFile.close();
+                cout << "Login Successful. Welcome, " << username << endl;
+                return true;
+            }
+        }
+        accFile.close();
+    }
+    else {
+        cout << "Problem with opening file" << endl;
+    }
+    cout << "Incorrect username or password." << endl;
+    return false;*/
+
 }
 
 void signup()
 {
     string username, password;
-    //string userId, pwd;
-
-    system("cls");
+    
     cout << "\n------------------ Sign Up ------------------" << endl;
     cout << "Please enter your username: "; //need check for duplicate username
-    cin.ignore();
     getline(cin, username);
-    cout << "Please enter your password: "; //if got time do confirm password 
-    getline(cin, password);
+    //check if username exists in dictionary -> if it does display "username is taken, choose a different username"
+    if (d.find(username)) 
+    {
+        system("cls");
+        cout << "Username is taken, choose a different username" << endl;
+        signup();
+    }
+    cout << "Please enter your password: ";
+    cin >> password;
+
     Account acc(username, password);
     d.add(username, password);
-
-    /*ofstream f1("accounts.txt", ios::app);
-    f1 << userId << ' ' << pwd << endl;*/
+    ofstream accFile("accounts.txt", ios::app);
+    if (accFile.is_open())
+    {
+        accFile << username << ' ' << password << endl;
+        accFile.close();
+    }
+    else
+    {
+        cout << "Problem with opening file" << endl;
+    }
     system("cls");
-    cout << "Sign Up is successfull!" << endl;
-    main();    
+    cout << "Sign up is successfull!" << endl;
+    
+
+    /*ofstream accFile("accounts.txt", ios::app);
+    if (accFile.is_open())
+    {
+        accFile << username << ' ' << password << endl;
+        accFile.close();
+    }
+    else
+    {
+        cout << "Problem with opening file" << endl;
+    }
+    system("cls");
+    cout << "Sign up is successfull!" << endl;
+    main();*/
+
+    //ifstream accFile("accounts.txt");
+    //string accLine;
+    //bool flag = false;
+    //while (getline(accFile, accLine))
+    //{
+    //    stringstream ss(accLine);
+    //    string fileUsername, filePassword;
+    //    ss >> fileUsername >> filePassword;
+    //    if (fileUsername == username)
+    //    {
+    //        flag = true;
+    //        break;
+    //    }
+    //}
+    //if (flag) 
+    //{
+    //    cout << "Username is taken, choose a different username" << endl;
+    //    
+    //}
+    //else 
+    //{
+    //    cout << "Please enter your password: "; //if got time do confirm password 
+    //    getline(cin, password);
+    //    Account acc(username, password);
+    //    d.add(username, password);
+
+    //    ofstream accFile("accounts.txt", ios::app);
+    //    if (accFile.is_open())
+    //    {
+    //        accFile << username << ' ' << password << endl;
+    //        accFile.close();
+    //    }
+    //    else
+    //    {
+    //        cout << "Problem with opening file" << endl;
+    //    }
+    //    system("cls");
+    //    cout << "Sign up is successfull!" << endl;
+    //    main();
+    //}  
 }
 
 string displayForumMenu() 
