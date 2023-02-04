@@ -49,60 +49,64 @@ int main()
 
     bool status1 = true;
     bool status2 = true;
-    while (status1) {
-        string mainMenuOption = displayMainMenu();
-        if (mainMenuOption == "1") {
-            if (login() == true) {
-                status1 = false;
+    bool status1_2 = true;
+    while (status1_2) {
+        while (status1) {
+            status2 = true;
+            string mainMenuOption = displayMainMenu();
+            if (mainMenuOption == "1") {
+                if (login() == true) {
+                    status1 = false;
+                }
+                else {
+                    status2 = false;
+                }
+            }
+            else if (mainMenuOption == "2") {
+                signup();
+                //status1 remain true so can loop for main menu option
+            }
+            else if (mainMenuOption == "3") {
+                d.print();
+            }
+            else if (mainMenuOption == "0") {
+                //exit
+                status2 = false;
+                status1_2 = false;
+                cout << "Exiting the program. Byebye!" << endl;
+                exit(0);//use this instead of break
             }
             else {
-                status1 = false;
-                status2 = false;
-                main();
+                cout << "Please enter a valid option" << endl;
+                //status1 remain true so can loop for main menu option
             }
         }
-        else if (mainMenuOption == "2") {
-            signup();
-            //status1 remain true so can loop for main menu option
-        }
-        else if (mainMenuOption == "3") {
-            d.print();
-        }
-        else if (mainMenuOption == "0") {
-            //exit
-            status2 = false;
-            cout << "Exiting the program. Byebye!" << endl;
-            exit(0);//use this instead of break
-        }
-        else {
-            cout << "Please enter a valid option" << endl;
-            //status1 remain true so can loop for main menu option
-        }
-    }
-    while (status2) {
-        string forumMenuOption = displayForumMenu();
-        if (forumMenuOption == "1") {
-            createNewTopic();
-        }
-        else if (forumMenuOption == "2")
-        {
-            //choose a topic to see
-            //if wna create post
-            createPost();
-        }
-        else if (forumMenuOption == "3")
-        {
-            //see user's posts
-        }
-        else if (forumMenuOption == "0") {
-            //Exit
-            system("cls");
-            cout << "Logged Out" << endl;
-            status2 = false;
-        }
-        else {
-            //ask for valid option
-            cout << "Please enter a valid option" << endl;
+        while (status2) {
+            string forumMenuOption = displayForumMenu();
+            if (forumMenuOption == "1") {
+                createNewTopic();
+            }
+            else if (forumMenuOption == "2")
+            {
+                //choose a topic to see
+                //if wna create post
+                createPost();
+            }
+            else if (forumMenuOption == "3")
+            {
+                //see user's posts
+            }
+            else if (forumMenuOption == "0") {
+                //Exit
+                cout << "Logged Out" << endl;
+                status1 = true;
+                status2 = false;
+                //system("cls");
+            }
+            else {
+                //ask for valid option
+                cout << "Please enter a valid option" << endl;
+            }
         }
     }
 }
