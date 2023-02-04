@@ -46,6 +46,36 @@ int main()
         accFile.close();
     }
 
+    string topicTitle;
+    ifstream topicFile("topics.txt");
+    // Check if the file is open
+    if (topicFile.is_open())
+    {
+        // store the entire title (including space) in one string
+        while (getline(topicFile, topicTitle))
+        {
+            // Add the topic title to the list
+            topicList.add(topicTitle);
+        }
+        // Close the file
+        topicFile.close();
+    }
+
+    //POST NOT IMPLEMENTED YET
+    //ifstream postFile("posts.txt");
+    //// Check if the file is open
+    //if (postFile.is_open())
+    //{
+    //    // Read the file line by line
+    //    while (postFile >> username >> password)
+    //    {
+    //        // Add the username and password to the dictionary
+    //        d.add(username, password);
+    //    }
+    //    // Close the file
+    //    postFile.close();
+    //}
+
 
     bool status1 = true;
     bool status2 = true;
@@ -155,25 +185,6 @@ bool login()
         cout << "Incorrect username or password." << endl;
         return false;
     }
-
-    /*string fileUsername, filePassword;
-    ifstream accFile("accounts.txt");
-    if (accFile.is_open()) {
-        while (accFile >> fileUsername >> filePassword) {
-            if (username == fileUsername && password == filePassword) {
-                accFile.close();
-                cout << "Login Successful. Welcome, " << username << endl;
-                return true;
-            }
-        }
-        accFile.close();
-    }
-    else {
-        cout << "Problem with opening file" << endl;
-    }
-    cout << "Incorrect username or password." << endl;
-    return false;*/
-
 }
 
 void signup()
@@ -207,62 +218,6 @@ void signup()
     }
     system("cls");
     cout << "Sign up is successfull!" << endl;
-    
-
-    /*ofstream accFile("accounts.txt", ios::app);
-    if (accFile.is_open())
-    {
-        accFile << username << ' ' << password << endl;
-        accFile.close();
-    }
-    else
-    {
-        cout << "Problem with opening file" << endl;
-    }
-    system("cls");
-    cout << "Sign up is successfull!" << endl;
-    main();*/
-
-    //ifstream accFile("accounts.txt");
-    //string accLine;
-    //bool flag = false;
-    //while (getline(accFile, accLine))
-    //{
-    //    stringstream ss(accLine);
-    //    string fileUsername, filePassword;
-    //    ss >> fileUsername >> filePassword;
-    //    if (fileUsername == username)
-    //    {
-    //        flag = true;
-    //        break;
-    //    }
-    //}
-    //if (flag) 
-    //{
-    //    cout << "Username is taken, choose a different username" << endl;
-    //    
-    //}
-    //else 
-    //{
-    //    cout << "Please enter your password: "; //if got time do confirm password 
-    //    getline(cin, password);
-    //    Account acc(username, password);
-    //    d.add(username, password);
-
-    //    ofstream accFile("accounts.txt", ios::app);
-    //    if (accFile.is_open())
-    //    {
-    //        accFile << username << ' ' << password << endl;
-    //        accFile.close();
-    //    }
-    //    else
-    //    {
-    //        cout << "Problem with opening file" << endl;
-    //    }
-    //    system("cls");
-    //    cout << "Sign up is successfull!" << endl;
-    //    main();
-    //}  
 }
 
 string displayForumMenu() 
@@ -320,6 +275,18 @@ void createNewTopic()
     
     Topic newTopic(topicTitle);
     topicList.add(newTopic);
+
+    ofstream topicFile("topics.txt", ios::app);
+    if (topicFile.is_open())
+    {
+        topicFile << topicTitle << endl;
+        topicFile.close();
+    }
+    else
+    {
+        cout << "Problem with opening file" << endl;
+    }
+
     system("cls");
 
     #pragma region topic id
@@ -350,9 +317,9 @@ void createPost()
     string content;
     time_t postTime;
 
-    cout << "\n--------------- Create Topic ----------------" << endl;
+    cout << "\n--------------- Create Post ----------------" << endl;
 
-    //create topic object
+    //create post object
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Enter a Post title: "; 
     getline(cin, postTitle);
