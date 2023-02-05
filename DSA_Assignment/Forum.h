@@ -11,8 +11,10 @@ class Forum
 private:
     ListTopic topiclist;
     ListPost postlist;
+    //ListReply replylist;
     Topic topic;
     Post post;
+    //Reply reply
 
 public:
     Forum();
@@ -22,6 +24,7 @@ public:
 
     void addTopic(Topic topic);
     void addPost(string topicTitle, string postTitle, string content, string postTime, string username);
+    void addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser);
     void displayTopics();
     //void displayOwnTPosts(string username);
 

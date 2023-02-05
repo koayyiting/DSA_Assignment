@@ -10,9 +10,6 @@ class Topic
 {
     // data (properties)
 private:
-    #pragma region topicId
-    //string topicId;
-    #pragma endregion
     string title;
     ListPost postlist;
 
@@ -32,12 +29,5 @@ public:
     /*void displayOwnPost(ListPost postlist, string username);
     bool displayOwnPostCheck(ListPost postlist, string username);*/
 };
-    //void addPost(const Post &posts){ post.push_back(posts); }
-
-    #pragma region topicId
-    //Topic(string, string);	        // parameterized constructor
-    //void setTopicId(string);        // set topic id
-    //string getTopicId();            // get topic id
-    #pragma endregion 
 
 

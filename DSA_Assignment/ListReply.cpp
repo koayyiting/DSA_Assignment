@@ -1,12 +1,12 @@
 // List.cpp - Implementation of List ADT using Array
-#include "ListPost.h"  // header file
-#include "Post.h"
+#include "ListReply.h"  // header file
+#include "Reply.h"
 
 // constructor
-ListPost::ListPost() { size = 0; }
+ListReply::ListReply() { size = 0; }
 
 // add an item to the back of the list (append)
-bool ListPost::add(Post item)
+bool ListReply::add(Reply item)
 {
 	Node* newNode = new Node;
 	newNode->item = item;
@@ -30,7 +30,7 @@ bool ListPost::add(Post item)
 }
 
 // add an item at a specified position in the list (insert)
-bool ListPost::add(int index, Post item)
+bool ListReply::add(int index, Reply item)
 {
 	if (index < size && index >= 0)
 	{
@@ -60,7 +60,7 @@ bool ListPost::add(int index, Post item)
 }
 
 // remove an item at a specified position in the list
-void ListPost::remove(int index)
+void ListReply::remove(int index)
 {
 	if (index < size && index >= 0)
 	{
@@ -84,7 +84,7 @@ void ListPost::remove(int index)
 }
 
 // get an item at a specified position of the list (retrieve)
-Post ListPost::get(int index)
+Reply ListReply::get(int index)
 {
 	if (index < size && index >= 0)
 	{
@@ -98,13 +98,13 @@ Post ListPost::get(int index)
 }
 
 // check if the list is empty
-bool ListPost::isEmpty() { return size == 0; }
+bool ListReply::isEmpty() { return size == 0; }
 
 // check the size of the list
-int ListPost::getLength() { return size; }
+int ListReply::getLength() { return size; }
 
 // display the items in the list
-void ListPost::print()
+void ListReply::print()
 {
 	Node* temp = firstNode;
 	if (temp == NULL) {
@@ -120,12 +120,7 @@ void ListPost::print()
 
 
 // replace the  item in the specified index in the list
-void ListPost::replace(int index, Post item) {
-	if (index < size && index >= 0) {
-		Node* current = firstNode;
-		for (int i = 0; i < index; i++) {
-			current = current->next;
-		}
-		current->item = item;
-	}
-}
+//void List::replace(int index, ItemType item)
+//{
+//
+//}
