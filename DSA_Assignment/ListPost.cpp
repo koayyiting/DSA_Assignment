@@ -120,7 +120,12 @@ void ListPost::print()
 
 
 // replace the  item in the specified index in the list
-//void List::replace(int index, ItemType item)
-//{
-//
-//}
+void ListPost::replace(int index, Post item) {
+	if (index < size && index >= 0) {
+		Node* current = firstNode;
+		for (int i = 0; i < index; i++) {
+			current = current->next;
+		}
+		current->item = item;
+	}
+}

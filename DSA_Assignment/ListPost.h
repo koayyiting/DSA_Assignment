@@ -64,7 +64,7 @@ public:
 	// display the items in the list
 	void print();
 
-	// void replace(int index, ItemType item);
+	void replace(int index, Post item);
 	// int search(ItemType item);
 };
 
