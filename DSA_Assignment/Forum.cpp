@@ -25,6 +25,28 @@ void Forum::addPost(string topicTitle, string postTitle, string content, string 
     }
 }
 
+void Forum::addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser) {
+    for (int i = 0; i < topiclist.getLength(); i++) {
+        topic = topiclist.get(i);
+        if (topic.getTopicTitle() == topicTitle) {
+            for (int j = 0; j < topic.getPostList().getLength(); j++) {
+                Post post = topic.getPostList().get(j);
+                if (post.getPostTitle() == postTitle) {
+                    Reply reply(replyContent, replyUser);
+                    post.addReply(reply);
+                    topic.getPostList().replace(j, post);
+                    topiclist.replace(i, topic);
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    if (topic.getTopicTitle() != topicTitle) {
+        cout << "Error: added reply to wrong post [could not find topic with title]" << endl;
+    }
+}
+
 void Forum::displayTopics() 
 {
     for (int i = 0; i < topiclist.getLength(); i++) {
