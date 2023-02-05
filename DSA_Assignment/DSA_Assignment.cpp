@@ -1,8 +1,8 @@
-//============================================================
+//======================================================================
 // Student Name & ID : Ng Zi Yi (S10222211K), Koay Yi Ting (S10221765G) 
 //      Module Group : P03
 //       Team Number : Team 8
-//===========================================================
+//======================================================================
 // DSA_Assignment.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include <iostream>
@@ -179,6 +179,7 @@ bool login()
     if (d.find(username)) {
         if (d.get(username) == password) {
             cout << "\nLogin Successful. Welcome, " << username << endl;
+            Account acc(username, password);
             return true;
         }
         else 
