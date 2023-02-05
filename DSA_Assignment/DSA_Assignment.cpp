@@ -370,75 +370,75 @@ string displayForumMenu()
     return option;
 }
 
-void createNewTopic() 
-{
-    string topicTitle;
-
-    //check if topic list is empty
-    if (!topicList.isEmpty()) {
-        cout << "Existing Topics:" << endl;
-    }
-    printTopicList(topicList);
-	cout << "\n--------------- Create Topic ----------------" << endl;
-
-    //create topic object
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
-    getline(cin, topicTitle);
-
-    //check for duplicate topic title
-    for (int i = 0; i < topicList.getLength(); i++) {
-        topic = topicList.get(i);
-        if (topicTitle == topic.getTopicTitle()) {
-            cout << "You have entered a Existing Topic Title" << endl;
-            return;
-        }
-    }
-
-    //continue to create a topic object
-    int topicId = topicList.getLength();
-    
-    Topic newTopic(topicTitle);
-    topicList.add(newTopic);
-    system("cls");
-
-    #pragma region topic id
-    /*Topic newTopic(id,topicTitle);
-    string id;
-    stringstream ss;
-    ss << topicId;
-    ss >> id;*/
-    #pragma endregion
-
-    #pragma region link on how to use for stringstream
-    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
-    #pragma endregion
-}
-
-void printTopicList(List tlist) 
-{
-    for (int i = 0; i < tlist.getLength(); i++)
-    {
-        topic = tlist.get(i);
-        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
-    }
-}
-
-void createPost() 
-{
-    string postTitle;
-    string content;
-    time_t postTime;
-
-    cout << "\n--------------- Create Topic ----------------" << endl;
-
-    //create topic object
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a Post title: "; 
-    getline(cin, postTitle);
-
-    cout << "Enter your post Content: ";
-    getline(cin, content);
+//void createNewTopic() 
+//{
+//    string topicTitle;
+//
+//    //check if topic list is empty
+//    if (!topicList.isEmpty()) {
+//        cout << "Existing Topics:" << endl;
+//    }
+//    printTopicList(topicList);
+//	cout << "\n--------------- Create Topic ----------------" << endl;
+//
+//    //create topic object
+//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
+//    getline(cin, topicTitle);
+//
+//    //check for duplicate topic title
+//    for (int i = 0; i < topicList.getLength(); i++) {
+//        topic = topicList.get(i);
+//        if (topicTitle == topic.getTopicTitle()) {
+//            cout << "You have entered a Existing Topic Title" << endl;
+//            return;
+//        }
+//    }
+//
+//    //continue to create a topic object
+//    int topicId = topicList.getLength();
+//    
+//    Topic newTopic(topicTitle);
+//    topicList.add(newTopic);
+//    system("cls");
+//
+//    #pragma region topic id
+//    /*Topic newTopic(id,topicTitle);
+//    string id;
+//    stringstream ss;
+//    ss << topicId;
+//    ss >> id;*/
+//    #pragma endregion
+//
+//    #pragma region link on how to use for stringstream
+//    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
+//    #pragma endregion
+//}
+//
+//void printTopicList(List tlist) 
+//{
+//    for (int i = 0; i < tlist.getLength(); i++)
+//    {
+//        topic = tlist.get(i);
+//        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
+//    }
+//}
+//
+//void createPost() 
+//{
+//    string postTitle;
+//    string content;
+//    time_t postTime;
+//
+//    cout << "\n--------------- Create Topic ----------------" << endl;
+//
+//    //create topic object
+//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//    cout << "Enter a Post title: "; 
+//    getline(cin, postTitle);
+//
+//    cout << "Enter your post Content: ";
+//    getline(cin, content);
 
 //void printTopicList(ListTopic tlist)
 //{
