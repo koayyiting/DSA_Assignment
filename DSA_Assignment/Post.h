@@ -21,6 +21,7 @@ private:
 public:
     Post();	                      
     Post(string tp, string c, string pt, string un);
+    ListReply getReplyList();
     void setPostTitle(string t);    
     string getPostTitle();        
     void setPostContent(string c);  
