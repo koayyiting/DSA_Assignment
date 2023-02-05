@@ -85,11 +85,12 @@ int topicOption() {
 
     //list all the topics and posts
     cout << "\n---------------------------------------------" << endl;
-    cout << "[-1] Create Reply" << endl;
+    cout << "[1] Create a Post" << endl;
+    cout << "[2] Create a Reply" << endl;
     cout << "[0] Back" << endl;
     cout << "---------------------------------------------\n" << endl;
 
-    cout << "Enter a Topic number to create a post or Back: ";
+    cout << "Enter an Option: ";
     cin >> option;
     return option;
 }
@@ -119,10 +120,10 @@ void createPost(int topicIndex, Account currentUser)
     username = currentUser.getUsername();
     
     Post newPost(postTitle, content, postTime, username);
-    Topic topic = topicList.get(topicIndex - 1);
+    Topic topic = topicList.get(topicIndex);
     postList.add(newPost);
     topic.addPost(newPost);
-    topicList.replace(topicIndex - 1,topic);
+    topicList.replace(topicIndex,topic);
     forum.addPost(topic.getTopicTitle(), newPost.getPostTitle(), newPost.getPostContent(), newPost.getPostTime(), newPost.getUsername());
 
     //cout << "Your post is added! Time: " << postTime << endl;
@@ -147,7 +148,7 @@ void printUserPost() {
             post = topic.getPostList().get(j);
             if (post.getUsername() == currentUser.getUsername()) {
                 cout << "Topic: " << topic.getTopicTitle() << endl;
-                cout << j + 1 << ". " << endl;
+                cout << i + 1 << ". " << endl;
                 cout << "Title:   " << post.getPostTitle() << endl;
                 cout << "Content: " << post.getPostContent() << endl;
                 cout << endl;
@@ -170,8 +171,8 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
     username = currentUser.getUsername();
 
     Reply newReply(content, username);
-    Topic topic = topicList.get(topicIndex - 1);
-    Post post = postList.get(postIndex - 1);
+    Topic topic = topicList.get(topicIndex);
+    Post post = postList.get(postIndex);
     replyList.add(newReply);
     forum.addReply(topic.getTopicTitle(), post.getPostTitle(), post.getPostContent(), post.getPostTime(), post.getUsername(), content, username);
 
@@ -277,25 +278,44 @@ int main()
                 cout << "Please enter a valid option" << endl;
                 //status1 remain true so can loop for main menu option
             }
-        }
-        while (status2) {
-            string forumMenuOption = displayForumMenu();            
+        }     
+        while (status2) {         
+            string forumMenuOption = displayForumMenu();
             //forum.displayTopics();            
             if (forumMenuOption == "1") {
                 createNewTopic();
             }
             else if (forumMenuOption == "2")
             {
+                /*bool status2_2 = true;
+                while (status2_2) {*/
                 //choose a topic to see
                 int topicMenuOption = topicOption();
                 if (topicMenuOption == 0) {
-                    break;//stop if statement
+                    //status2_2 = false;
                 }
-                else if (topicMenuOption == -1) {
-
+                else if (topicMenuOption == 1) {
+                    int topicIndex;
+                    cout << "Please Enter a Topic number: ";
+                    cin >> topicIndex;
+                    createPost(topicIndex-1, currentUser);
                 }
-                else{
-                    createPost(topicMenuOption,currentUser);
+                else if (topicMenuOption == 2) {
+                    if (!postList.isEmpty()) {
+                        int topicIndex;
+                        int postIndex;
+                        cout << "Please Enter a Topic number: ";
+                        cin >> topicIndex;
+                        cout << "Please Enter the Post number of the Topic: ";
+                        cin >> postIndex;
+                        createReply(topicIndex-1, postIndex-1, currentUser);
+                    }
+                    else {
+                        cout << "There is no post to reply to" << endl;
+                    }
+                }
+                else {
+                    cout << "Please Enter a Valid Option!" << endl;
                 }
                 
             }
