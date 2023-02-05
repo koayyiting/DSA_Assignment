@@ -6,6 +6,8 @@ Topic::Topic() { }
 Topic::Topic(string t) : title(t) { }
 void Topic::setTopicTitle(string t) { title = t; }
 string Topic::getTopicTitle() { return title; }
+void addPost(Post post) {}
+//void displayPost(ListPost postlist) {}
 
 #pragma region topicId
 //Topic::Topic() { }
