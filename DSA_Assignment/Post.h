@@ -3,7 +3,10 @@
 #include <iostream>     // for input/output
 #include <string>       // for string class
 #include <ctime>
+#include "ListReply.h"
+
 using namespace std;
+
 class Post
 {
 // data (properties)
@@ -12,6 +15,7 @@ private:
     string content;
     string postTime; //not sure if is this format [time_t now = time(0); to get current time]
     string username;
+    ListReply replylist;
 
 // functions (methods)
 public:
@@ -25,4 +29,6 @@ public:
     string getPostTime();
     void setUsername(string un);
     string getUsername();
+    void addReply(Reply reply);
+    void displayReply(ListReply replylist);
 };

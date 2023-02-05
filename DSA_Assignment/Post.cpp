@@ -1,4 +1,4 @@
-// Topic.cpp – Implementation
+// Post.cpp – Implementation
 
 #include "Post.h"
 
@@ -12,3 +12,16 @@ void Post::setPostTime(string pt) { postTime = pt; }
 string Post::getPostTime() { return postTime; }
 void Post::setUsername(string un) { username = un; }
 string Post::getUsername() { return username; }
+
+void Post::addReply(Reply reply) {
+    replylist.add(reply);
+}
+
+void Post::displayReply(ListReply replylist) {
+    cout << "Reply: " << endl;
+    for (int i = 0; i < replylist.getLength(); i++) {
+        Reply reply = replylist.get(i);
+        cout << "     Content: " << reply.getReplyContent() << endl;
+        cout << "     Username: " << reply.getUsername() << endl;
+    }
+}
