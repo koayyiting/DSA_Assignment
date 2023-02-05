@@ -144,8 +144,10 @@
     <ClCompile Include="DSA_Assignment.cpp" />
     <ClCompile Include="Forum.cpp" />
     <ClCompile Include="ListPost.cpp" />
+    <ClCompile Include="ListReply.cpp" />
     <ClCompile Include="ListTopic.cpp" />
     <ClCompile Include="Post.cpp" />
+    <ClCompile Include="Reply.cpp" />
     <ClCompile Include="Topic.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +155,10 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Forum.h" />
     <ClInclude Include="ListPost.h" />
+    <ClInclude Include="ListReply.h" />
     <ClInclude Include="ListTopic.h" />
     <ClInclude Include="Post.h" />
+    <ClInclude Include="Reply.h" />
     <ClInclude Include="Topic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

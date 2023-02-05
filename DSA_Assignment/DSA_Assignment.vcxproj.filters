@@ -39,6 +39,12 @@
     <ClCompile Include="ListPost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Reply.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListReply.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Topic.h">
@@ -60,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListPost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reply.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListReply.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
