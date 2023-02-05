@@ -148,14 +148,13 @@ void printUserPost() {
             post = topic.getPostList().get(j);
             if (post.getUsername() == currentUser.getUsername()) {
                 cout << "Topic: " << topic.getTopicTitle() << endl;
-                cout << i + 1 << ". " << endl;
+                cout << j + 1 << ". " << endl;
                 cout << "Title:   " << post.getPostTitle() << endl;
                 cout << "Content: " << post.getPostContent() << endl;
                 cout << endl;
             }
         }
     }
-    
 }
 
 void createReply(int topicIndex, int postIndex, Account currentUser) {
