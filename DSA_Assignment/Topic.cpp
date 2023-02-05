@@ -16,6 +16,14 @@ void Topic::addPost(Post post) {
     postlist.add(post);
 }
 
+void Topic::editPost(int index, Post post) {
+    postlist.replace(index, post);
+}
+
+void Topic::deletePost(int index) {
+    postlist.remove(index);
+}
+
 void Topic::displayPost(ListPost postlist) {
     //cout << "Topic: " << title << endl;
     for (int i = 0; i < postlist.getLength(); i++) {
