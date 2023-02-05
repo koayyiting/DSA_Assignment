@@ -9,12 +9,14 @@
 #include <string.h>
 #include <fstream>
 //#include <vector>
-//#include <sstream>
-#include <ctime>
+#include <sstream>
+//#include <ctime>
 #include "Topic.h"
 #include "Dictionary.h"
 #include "Account.h"
 #include "ListTopic.h"
+#include "ListPost.h"
+#include "ListReply.h"
 #include "Post.h"
 #include "Forum.h"
 
@@ -182,63 +184,6 @@ int printUserPost() {
     return option;
 }
 
-void editPost(int postOption, Account currentUser) 
-{
-    string postTitle;
-    string content;
-
-    cout << "\n--------------- Edit Post ----------------" << endl;
-
-    // create a post object
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a new Post title: ";
-    getline(cin, postTitle);
-
-    cout << "Enter a new post Content: ";
-    getline(cin, content);
-
-    Post updatedPost = postList.get(postOption - 1);
-    updatedPost.setPostTitle(postTitle);
-    updatedPost.setPostContent(content);
-    postList.replace(postOption - 1, updatedPost);
-
-    cout << "Post updated successfully." << endl;
-
-    //int option = modifyPost(postOption);
-
-    //if (option == 1) {
-    //    //Edit code
-    //    int topicIndex = 0, postIndex = postOption - 1;
-    //    for (int i = 0; i < topicList.getLength(); i++) {
-    //        topic = topicList.get(i);
-    //        if (postIndex >= topic.getPostList().getLength()) {
-    //            postIndex -= topic.getPostList().getLength();
-    //            topicIndex++;
-    //        }
-    //        else {
-    //            break;
-    //        }
-    //    }
-    //    cout << "Enter the new post title: ";
-    //    string postTitle;
-    //    getline(cin, postTitle);
-    //    cout << "Enter the new post content: ";
-    //    string postContent;
-    //    getline(cin, postContent);
-    //    string postTime;
-    //    cout << "Enter your post Time: ";
-    //    getline(cin, postTime);
-
-    //    string username = currentUser.getUsername();
-
-    //    post = topic.getPostList().get(postIndex);
-    //    post.setPostTitle(postTitle);
-    //    post.setPostContent(postContent);
-    //    topic.getPostList().replace(postIndex, post);
-    //    topicList.replace(topicIndex, topic);
-
-}
-
 int modifyPost(int postOption)
 {
     int option;
@@ -277,9 +222,110 @@ int modifyPost(int postOption)
     cout << "[2] Delete" << endl;
     cout << "[0] Back" << endl;
     cout << "---------------------------------------------\n" << endl;
-    cout << "Enter an option: " << endl;
+    cout << "Enter an option: ";
     cin >> option;
     return option;
+}
+
+void editPost(int postOption, Account currentUser) 
+{
+    string postTitle;
+    string content;
+    string titleChange;
+    string contentChange;
+
+    cout << "\n--------------- Edit Post ----------------" << endl;
+
+    // create a post object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Do you want to change your Post Title? (y/n): ";
+    cin >> titleChange;
+    if (titleChange == "n") {
+        postTitle = post.getPostTitle();
+    }
+    else if (titleChange == "y") {
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Enter a new Post title: ";
+        getline(cin, postTitle);
+    }
+    
+    cout << "Do you want to change your Post Content? (y/n): ";
+    cin >> contentChange;
+    if (contentChange == "n") {
+        content = post.getPostContent();
+    }
+    else if (contentChange == "y") {
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Enter a new post Content: ";
+        getline(cin, content);
+    }
+
+    Post editedPost(postTitle, content, "2.30pm", currentUser.getUsername());
+    post = topic.getPostList().get(postOption - 1);
+    //post.setPostTitle(postTitle);
+    //post.setPostContent(content);
+    topic.getPostList().replace(postOption - 1, editedPost);
+    topicList.replace(postOption - 1, topic);
+    postList.replace(postOption - 1, editedPost);
+    forum.editPost(postOption-1,topic.getTopicTitle(),editedPost.getPostTitle(),editedPost.getPostContent(),editedPost.getPostTime(),editedPost.getUsername());
+
+    cout << "Post edited!" << endl;
+    
+    //Post editedPost = postlist.get(PostOption - 1);
+    
+
+    //Post updatedPost = postList.get(postOption - 1);
+    //updatedPost.setPostTitle(postTitle);
+    //updatedPost.setPostContent(content);
+    //postList.replace(postOption - 1, updatedPost);
+
+    //cout << "Post updated successfully." << endl;
+
+    //int option = modifyPost(postOption);
+
+    //if (option == 1) {
+    //    //Edit code
+    //    int topicIndex = 0, postIndex = postOption - 1;
+    //    for (int i = 0; i < topicList.getLength(); i++) {
+    //        topic = topicList.get(i);
+    //        if (postIndex >= topic.getPostList().getLength()) {
+    //            postIndex -= topic.getPostList().getLength();
+    //            topicIndex++;
+    //        }
+    //        else {
+    //            break;
+    //        }
+    //    }
+    //    cout << "Enter the new post title: ";
+    //    string postTitle;
+    //    getline(cin, postTitle);
+    //    cout << "Enter the new post content: ";
+    //    string postContent;
+    //    getline(cin, postContent);
+    //    string postTime;
+    //    cout << "Enter your post Time: ";
+    //    getline(cin, postTime);
+
+    //    string username = currentUser.getUsername();
+
+    //    post = topic.getPostList().get(postIndex);
+    //    post.setPostTitle(postTitle);
+    //    post.setPostContent(postContent);
+    //    topic.getPostList().replace(postIndex, post);
+    //    topicList.replace(topicIndex, topic);
+    //}
+}
+
+void deletePost(int postOption) {
+    post = topic.getPostList().get(postOption - 1);
+    //post.setPostTitle(postTitle);
+    //post.setPostContent(content);
+    topic.getPostList().remove(postOption - 1);
+    topicList.remove(postOption - 1);
+    postList.remove(postOption - 1);
+    forum.deletePost(postOption - 1, topic.getTopicTitle());
+
+    cout << "Post deleted!" << endl;
 }
 
 void createReply(int topicIndex, int postIndex, Account currentUser) {
@@ -453,7 +499,13 @@ int main()
                 }
                 else 
                 {
-                    modifyPost(userPostOption);
+                    int editOption = modifyPost(userPostOption);
+                    if (editOption == 1) {
+                        editPost(userPostOption, currentUser);
+                    }
+                    else if (editOption == 2) {
+                        deletePost(userPostOption);
+                    }
                 }
             }
             else if (forumMenuOption == "0") {
