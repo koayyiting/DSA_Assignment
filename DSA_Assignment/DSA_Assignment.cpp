@@ -4,32 +4,139 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
-#include <vector>
-#include <sstream>
+//#include <vector>
+//#include <sstream>
 #include <ctime>
 #include "Topic.h"
 #include "Dictionary.h"
 #include "Account.h"
-#include "List.h"
+#include "ListTopic.h"
 #include "Post.h"
+#include "Forum.h"
 
 using namespace std;
 
-TItemType topic;
+
 Dictionary d;
-List topicList;
-vector<Post> postList;
+ListTopic topicList;
+ListPost postList;
+//Forum ForumTopicList;
+
+Forum forum;
+Topic topic;
+Post post;
+Account currentUser;
 
 string displayMainMenu();
 string displayForumMenu();
 bool login();
 void signup();
-void createNewTopic();
-void createPost();
-void printTopicList(List tlist);
+//void createNewTopic();
+//void createPost();
+//void printTopicList(ListTopic tlist);
+
+void createNewTopic() {
+    string topicTitle;
+
+    //check if topic list is empty
+    if (!topicList.isEmpty()) {
+        cout << "Existing Topics:" << endl;
+    }
+    forum.displayTopics();
+    cout << "\n--------------- Create Topic ----------------" << endl;
+    
+    //create topic object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
+    getline(cin, topicTitle);
+    
+    //check for duplicate topic title
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+        if (topicTitle == topic.getTopicTitle()) {
+            cout << "You have entered a Existing Topic Title" << endl;
+            return;
+        }
+    }
+    
+    //continue to create a topic object
+    int topicId = topicList.getLength();
+        
+    Topic newTopic(topicTitle);
+    topicList.add(newTopic);
+    forum.addTopic(newTopic);
+    system("cls");
+}
+
+int topicOption() {
+    int option;
+    cout << "\n------------------- Topics -------------------\n" << endl;
+    if (topicList.isEmpty())
+    {
+        cout << "No Topic Created" << endl;
+    }
+    else { forum.displayTopics(); }
+
+    //list all the topics and posts
+    cout << "\n---------------------------------------------" << endl;
+    cout << "[0] Back" << endl;
+    cout << "---------------------------------------------\n" << endl;
+
+    cout << "Enter a Topic number to create a post or Back: ";
+    cin >> option;
+    return option;
+}
+
+void createPost(int topicIndex, Account currentUser)
+{
+    string postTitle;
+    string content;
+    string postTime;
+    string username;
+
+    cout << "\n--------------- Create Topic ----------------" << endl;
+
+    //create topic object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a Post title: ";
+    getline(cin, postTitle);
+
+    cout << "Enter your post Content: ";
+    getline(cin, content);
+
+    cout << "Enter your post Time: ";
+    //time_t ct = time(0);
+    //postTime = ctime(&ct);
+    getline(cin, postTime);
+
+    username = currentUser.getUsername();
+
+    Post newPost(postTitle, content, postTime, username);
+    Topic topic = topicList.get(topicIndex - 1);
+    topic.addPost(newPost);
+    forum.addPost(topic.getTopicTitle(), newPost.getPostTitle(), newPost.getPostContent(), newPost.getPostTime(), newPost.getUsername());
+
+    //cout << "Your post is added! Time: " << postTime << endl;
+}
 
 int main()
 {
+    //Topic t1("Linked List");
+    //Topic t2("DSA");
+    //forum.addTopic(t1);
+    //forum.addTopic(t2);
+    //Post p1("Post 1", "Content 1", "MON");
+    //Post p2("Post 2", "Content 2", "TUES");
+    //Post p3("Post 3", "Content 3", "WED");
+    //t1.addPost(p1);
+    //t1.addPost(p2);
+    //t2.addPost(p3);
+    //forum.addPost(t1.getTopicTitle(), p1.getPostTitle(), p1.getPostContent(), p1.getPostTime());
+    //forum.addPost(t1.getTopicTitle(), p2.getPostTitle(), p2.getPostContent(), p2.getPostTime());
+    //forum.addPost(t2.getTopicTitle(), p3.getPostTitle(), p3.getPostContent(), p3.getPostTime());
+    //forum.displayTopics();
+
+
     string username;
     string password;
     ifstream accFile("accounts.txt");
@@ -57,6 +164,7 @@ int main()
             if (mainMenuOption == "1") {
                 if (login() == true) {
                     status1 = false;
+                    //system("cls");
                 }
                 else {
                     status2 = false;
@@ -82,15 +190,22 @@ int main()
             }
         }
         while (status2) {
-            string forumMenuOption = displayForumMenu();
+            string forumMenuOption = displayForumMenu();            
+            //forum.displayTopics();
             if (forumMenuOption == "1") {
                 createNewTopic();
             }
             else if (forumMenuOption == "2")
             {
                 //choose a topic to see
-                //if wna create post
-                createPost();
+                int topicMenuOption = topicOption();
+                if (topicMenuOption == 0) {
+                    break;//stop if statement
+                }
+                else{
+                    createPost(topicMenuOption,currentUser);
+                }
+                
             }
             else if (forumMenuOption == "3")
             {
@@ -143,6 +258,8 @@ bool login()
     if (d.find(username)) {
         if (d.get(username) == password) {
             cout << "\nLogin Successful. Welcome, " << username << endl;
+            currentUser.setUsername(username);
+            currentUser.setPassword(password);
             return true;
         }
         else 
@@ -272,7 +389,7 @@ string displayForumMenu()
     {
         cout << "No Topic Created" << endl;
     }
-    else { printTopicList(topicList); }
+    else { forum.displayTopics(); }
 
     //list all the topics and posts
     cout << "\n---------------------------------------------" << endl;
@@ -290,82 +407,82 @@ string displayForumMenu()
     return option;
 }
 
-void createNewTopic() 
-{
-    string topicTitle;
+//void createNewTopic() 
+//{
+//    string topicTitle;
+//
+//    //check if topic list is empty
+//    if (!topicList.isEmpty()) {
+//        cout << "Existing Topics:" << endl;
+//    }
+//    printTopicList(topicList);
+//	cout << "\n--------------- Create Topic ----------------" << endl;
+//
+//    //create topic object
+//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
+//    getline(cin, topicTitle);
+//
+//    //check for duplicate topic title
+//    for (int i = 0; i < topicList.getLength(); i++) {
+//        topic = topicList.get(i);
+//        if (topicTitle == topic.getTopicTitle()) {
+//            cout << "You have entered a Existing Topic Title" << endl;
+//            return;
+//        }
+//    }
+//
+//    //continue to create a topic object
+//    int topicId = topicList.getLength();
+//    
+//    Topic newTopic(topicTitle);
+//    topicList.add(newTopic);
+//    system("cls");
+//
+//    #pragma region topic id
+//    /*Topic newTopic(id,topicTitle);
+//    string id;
+//    stringstream ss;
+//    ss << topicId;
+//    ss >> id;*/
+//    #pragma endregion
+//
+//    #pragma region link on how to use for stringstream
+//    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
+//    #pragma endregion
+//}
 
-    //check if topic list is empty
-    if (!topicList.isEmpty()) {
-        cout << "Existing Topics:" << endl;
-    }
-    printTopicList(topicList);
-	cout << "\n--------------- Create Topic ----------------" << endl;
+//void printTopicList(ListTopic tlist)
+//{
+//    for (int i = 0; i < tlist.getLength(); i++)
+//    {
+//        topic = tlist.get(i);
+//        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
+//    }
+//}
 
-    //create topic object
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
-    getline(cin, topicTitle);
-
-    //check for duplicate topic title
-    for (int i = 0; i < topicList.getLength(); i++) {
-        topic = topicList.get(i);
-        if (topicTitle == topic.getTopicTitle()) {
-            cout << "You have entered a Existing Topic Title" << endl;
-            return;
-        }
-    }
-
-    //continue to create a topic object
-    int topicId = topicList.getLength();
-    
-    Topic newTopic(topicTitle);
-    topicList.add(newTopic);
-    system("cls");
-
-    #pragma region topic id
-    /*Topic newTopic(id,topicTitle);
-    string id;
-    stringstream ss;
-    ss << topicId;
-    ss >> id;*/
-    #pragma endregion
-
-    #pragma region link on how to use for stringstream
-    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
-    #pragma endregion
-}
-
-void printTopicList(List tlist) 
-{
-    for (int i = 0; i < tlist.getLength(); i++)
-    {
-        topic = tlist.get(i);
-        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
-    }
-}
-
-void createPost() 
-{
-    string postTitle;
-    string content;
-    time_t postTime;
-
-    cout << "\n--------------- Create Topic ----------------" << endl;
-
-    //create topic object
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a Post title: "; 
-    getline(cin, postTitle);
-
-    cout << "Enter your post Content: ";
-    getline(cin, content);
-
-    time_t now = time(0);
-
-    Post newPost(postTitle, content, now);
-    postList.push_back(newPost);
-    system("cls");
-}
+//void createPost() 
+//{
+//    string postTitle;
+//    string content;
+//    time_t postTime;
+//
+//    cout << "\n--------------- Create Topic ----------------" << endl;
+//
+//    //create topic object
+//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+//    cout << "Enter a Post title: "; 
+//    getline(cin, postTitle);
+//
+//    cout << "Enter your post Content: ";
+//    getline(cin, content);
+//
+//    time_t now = time(0);
+//
+//    Post newPost(postTitle, content, now);
+//    //postList.push_back(newPost);
+//    system("cls");
+//}
 
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
