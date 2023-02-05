@@ -47,12 +47,39 @@ void Forum::addReply(string topicTitle, string postTitle, string content, string
     }
 }
 
-void Forum::displayTopics() 
+//void Forum::displayTopics() 
+//{
+//    for (int i = 0; i < topiclist.getLength(); i++) {
+//        topic = topiclist.get(i);
+//        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
+//        ListPost postlist = topic.getPostList();
+//        topic.displayPost(postlist);
+//        for (int j = 0; j < postlist.getLength(); j++) {
+//            Post post = postlist.get(j);
+//            //cout << "\t" << j + 1 << ". " << post.getPostTitle() << endl;
+//            ListReply replylist = post.getReplyList();
+//            post.displayReply(replylist);
+//        }
+//    }
+//}
+
+void Forum::displayTopics()
 {
     for (int i = 0; i < topiclist.getLength(); i++) {
         topic = topiclist.get(i);
         cout << i + 1 << ". " << topic.getTopicTitle() << endl;
         ListPost postlist = topic.getPostList();
-        topic.displayPost(postlist);
+        if (!postlist.isEmpty()) { cout << "   Post: " << endl; }
+        for (int j = 0; j < postlist.getLength(); j++) {
+            Post post = postlist.get(j);
+            cout << "   " << j + 1 << ". Title: " << post.getPostTitle() << endl;
+            cout << "      Content: " << post.getPostContent() << endl;
+            ListReply replylist = post.getReplyList();
+            if (!replylist.isEmpty()) { cout << "      Reply: " << endl; }
+            for (int k = 0; k < replylist.getLength(); k++) {
+                Reply reply = replylist.get(k);
+                cout << "      " << k + 1 << ". " << reply.getReplyContent() << endl;
+            }   
+        }
     }
 }
