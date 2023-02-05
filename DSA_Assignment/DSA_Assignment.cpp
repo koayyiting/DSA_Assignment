@@ -72,8 +72,7 @@ void createNewTopic() {
     topicList.add(newTopic);
     forum.addTopic(newTopic);
 
-    // add new topic to topics.txt
-    /*ofstream topicFile("topics.txt", ios::app);
+    ofstream topicFile("topics.txt", ios::app);
     if (topicFile.is_open())
     {
         topicFile << topicTitle << endl;
@@ -82,7 +81,7 @@ void createNewTopic() {
     else
     {
         cout << "Problem with opening file" << endl;
-    }*/
+    }
 
     system("cls");
 }
@@ -348,6 +347,7 @@ int main()
         {
             // Add the topic title to the list
             topicList.add(topicTitle);
+            forum.addTopic(topicTitle);
         }
         // Close the file
         topicFile.close();
