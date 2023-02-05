@@ -24,11 +24,13 @@ using namespace std;
 Dictionary d;
 ListTopic topicList;
 ListPost postList;
+ListReply replyList;
 //Forum ForumTopicList;
 
 Forum forum;
 Topic topic;
 Post post;
+Reply reply;
 Account currentUser;
 
 string displayMainMenu();
@@ -74,7 +76,7 @@ void createNewTopic() {
 
 int topicOption() {
     int option;
-    cout << "\n------------------- Topics -------------------\n" << endl;
+    cout << "\n------------------- Topic -------------------\n" << endl;
     if (topicList.isEmpty())
     {
         cout << "No Topic Created" << endl;
@@ -83,6 +85,7 @@ int topicOption() {
 
     //list all the topics and posts
     cout << "\n---------------------------------------------" << endl;
+    cout << "[-1] Create Reply" << endl;
     cout << "[0] Back" << endl;
     cout << "---------------------------------------------\n" << endl;
 
@@ -98,7 +101,7 @@ void createPost(int topicIndex, Account currentUser)
     string postTime;
     string username;
 
-    cout << "\n--------------- Create Topic ----------------" << endl;
+    cout << "\n--------------- Create Post ----------------" << endl;
 
     //create topic object
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -114,13 +117,65 @@ void createPost(int topicIndex, Account currentUser)
     getline(cin, postTime);
 
     username = currentUser.getUsername();
-
+    
     Post newPost(postTitle, content, postTime, username);
     Topic topic = topicList.get(topicIndex - 1);
+    postList.add(newPost);
     topic.addPost(newPost);
+    topicList.replace(topicIndex - 1,topic);
     forum.addPost(topic.getTopicTitle(), newPost.getPostTitle(), newPost.getPostContent(), newPost.getPostTime(), newPost.getUsername());
 
     //cout << "Your post is added! Time: " << postTime << endl;
+}
+
+//display all post title [no topic]
+void printPostList() 
+{
+    for (int i = 0; i < postList.getLength(); i++)
+    {
+        post = postList.get(i);
+        cout << i + 1 << ". " << post.getPostTitle() << endl;
+    }
+}
+
+//display only user post
+void printUserPost() {
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+        for (int j = 0; j < topic.getPostList().getLength(); j++)
+        {
+            post = topic.getPostList().get(j);
+            if (post.getUsername() == currentUser.getUsername()) {
+                cout << "Topic: " << topic.getTopicTitle() << endl;
+                cout << j + 1 << ". " << endl;
+                cout << "Title:   " << post.getPostTitle() << endl;
+                cout << "Content: " << post.getPostContent() << endl;
+                cout << endl;
+            }
+        }
+    }
+    
+}
+
+void createReply(int topicIndex, int postIndex, Account currentUser) {
+    string content;
+    string username;
+
+    cout << "\n--------------- Create Reply ----------------" << endl;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Content Reply: ";
+    getline(cin, content);
+
+    username = currentUser.getUsername();
+
+    Reply newReply(content, username);
+    Topic topic = topicList.get(topicIndex - 1);
+    Post post = postList.get(postIndex - 1);
+    replyList.add(newReply);
+    forum.addReply(topic.getTopicTitle(), post.getPostTitle(), post.getPostContent(), post.getPostTime(), post.getUsername(), content, username);
+
+    //cout << "Your reply is added! Time: " << postTime << endl;
 }
 
 int main()
@@ -225,7 +280,7 @@ int main()
         }
         while (status2) {
             string forumMenuOption = displayForumMenu();            
-            //forum.displayTopics();
+            //forum.displayTopics();            
             if (forumMenuOption == "1") {
                 createNewTopic();
             }
@@ -236,6 +291,9 @@ int main()
                 if (topicMenuOption == 0) {
                     break;//stop if statement
                 }
+                else if (topicMenuOption == -1) {
+
+                }
                 else{
                     createPost(topicMenuOption,currentUser);
                 }
@@ -243,7 +301,8 @@ int main()
             }
             else if (forumMenuOption == "3")
             {
-                //see user's posts
+                cout << "Your Post(s): " << endl;
+                printUserPost();
             }
             else if (forumMenuOption == "0") {
                 //Exit
