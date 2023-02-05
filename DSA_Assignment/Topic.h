@@ -26,6 +26,8 @@ public:
     //}
     void addPost(Post post);
     void displayPost(ListPost postlist);
+    /*void displayOwnPost(ListPost postlist, string username);
+    bool displayOwnPostCheck(ListPost postlist, string username);*/
 };
 
 

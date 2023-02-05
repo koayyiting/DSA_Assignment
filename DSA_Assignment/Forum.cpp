@@ -83,3 +83,16 @@ void Forum::displayTopics()
         }
     }
 }
+
+//void Forum::displayOwnTPosts(string username)
+//{
+//    for (int i = 0; i < topiclist.getLength(); i++) {
+//        
+//        topic = topiclist.get(i);
+//        if (topic.displayOwnPostCheck(postlist, username)) {
+//            cout << "Topic: " << i + 1 << ". " << topic.getTopicTitle() << endl;
+//            ListPost postlist = topic.getPostList();
+//            topic.displayOwnPost(postlist, username);
+//        }
+//    }
+//}

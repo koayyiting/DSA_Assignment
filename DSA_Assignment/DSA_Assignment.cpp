@@ -71,6 +71,19 @@ void createNewTopic() {
     Topic newTopic(topicTitle);
     topicList.add(newTopic);
     forum.addTopic(newTopic);
+
+    // add new topic to topics.txt
+    /*ofstream topicFile("topics.txt", ios::app);
+    if (topicFile.is_open())
+    {
+        topicFile << topicTitle << endl;
+        topicFile.close();
+    }
+    else
+    {
+        cout << "Problem with opening file" << endl;
+    }*/
+
     system("cls");
 }
 
@@ -140,21 +153,133 @@ void printPostList()
 }
 
 //display only user post
-void printUserPost() {
+int printUserPost() {
+    int option;
+    bool flag = false;
+    cout << "\n--------------- Your post(s) ----------------\n" << endl;
     for (int i = 0; i < topicList.getLength(); i++) {
         topic = topicList.get(i);
         for (int j = 0; j < topic.getPostList().getLength(); j++)
         {
             post = topic.getPostList().get(j);
             if (post.getUsername() == currentUser.getUsername()) {
-                cout << "Topic: " << topic.getTopicTitle() << endl;
-                cout << j + 1 << ". " << endl;
-                cout << "Title:   " << post.getPostTitle() << endl;
-                cout << "Content: " << post.getPostContent() << endl;
+                cout << j + 1 << ". " << "Topic: " << topic.getTopicTitle() << endl;
+                cout <<  "   Title: " << post.getPostTitle() << endl;
+                cout << "   Content: " << post.getPostContent() << endl;
                 cout << endl;
+                flag = true;
             }
         }
     }
+    if (flag == false) {
+        cout << "No Post Created" << endl;
+    }
+    cout << "\n---------------------------------------------" << endl;
+    cout << "[0] Back" << endl;
+    cout << "---------------------------------------------\n" << endl;
+    cout << "Enter a Post number to modify or Back: ";
+    cin >> option;
+    return option;
+}
+
+void editPost(int postOption, Account currentUser) 
+{
+    string postTitle;
+    string content;
+
+    cout << "\n--------------- Edit Post ----------------" << endl;
+
+    // create a post object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a new Post title: ";
+    getline(cin, postTitle);
+
+    cout << "Enter a new post Content: ";
+    getline(cin, content);
+
+    Post updatedPost = postList.get(postOption - 1);
+    updatedPost.setPostTitle(postTitle);
+    updatedPost.setPostContent(content);
+    postList.replace(postOption - 1, updatedPost);
+
+    cout << "Post updated successfully." << endl;
+
+    //int option = modifyPost(postOption);
+
+    //if (option == 1) {
+    //    //Edit code
+    //    int topicIndex = 0, postIndex = postOption - 1;
+    //    for (int i = 0; i < topicList.getLength(); i++) {
+    //        topic = topicList.get(i);
+    //        if (postIndex >= topic.getPostList().getLength()) {
+    //            postIndex -= topic.getPostList().getLength();
+    //            topicIndex++;
+    //        }
+    //        else {
+    //            break;
+    //        }
+    //    }
+    //    cout << "Enter the new post title: ";
+    //    string postTitle;
+    //    getline(cin, postTitle);
+    //    cout << "Enter the new post content: ";
+    //    string postContent;
+    //    getline(cin, postContent);
+    //    string postTime;
+    //    cout << "Enter your post Time: ";
+    //    getline(cin, postTime);
+
+    //    string username = currentUser.getUsername();
+
+    //    post = topic.getPostList().get(postIndex);
+    //    post.setPostTitle(postTitle);
+    //    post.setPostContent(postContent);
+    //    topic.getPostList().replace(postIndex, post);
+    //    topicList.replace(topicIndex, topic);
+
+}
+
+int modifyPost(int postOption)
+{
+    int option;
+    bool flag = false;
+    int postIndex = postOption - 1;
+
+    // display selected post
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+
+        // Check if the post is in the current topic
+        for (int j = 0; j < topic.getPostList().getLength(); j++) {
+            post = topic.getPostList().get(j);
+            if (post.getUsername() == currentUser.getUsername() && j == postIndex) {
+                cout << "\nSelected post: " << endl;
+                cout << "Topic: " << topic.getTopicTitle() << endl;
+                cout << "Title: " << post.getPostTitle() << endl;
+                cout << "Content: " << post.getPostContent() << endl;
+                cout << endl;
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            break;
+        }
+    }
+
+    if (!flag) {
+        cout << "Error: selected post not found" << endl;
+        return 0;
+    }
+
+    cout << "\n---------------------------------------------" << endl;
+    cout << "[1] Edit" << endl;
+    cout << "[2] Delete" << endl;
+    cout << "[0] Back" << endl;
+    cout << "---------------------------------------------\n" << endl;
+    cout << "Enter an option: " << endl;
+    cin >> option;
+    return option;
 }
 
 void createReply(int topicIndex, int postIndex, Account currentUser) {
@@ -177,6 +302,7 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
 
     //cout << "Your reply is added! Time: " << postTime << endl;
 }
+
 
 int main()
 {
@@ -277,9 +403,10 @@ int main()
                 cout << "Please enter a valid option" << endl;
                 //status1 remain true so can loop for main menu option
             }
-        }     
-        while (status2) {         
-            string forumMenuOption = displayForumMenu();
+        }
+        // forum display
+        while (status2) {
+            string forumMenuOption = displayForumMenu();            
             //forum.displayTopics();            
             if (forumMenuOption == "1") {
                 createNewTopic();
@@ -320,8 +447,14 @@ int main()
             }
             else if (forumMenuOption == "3")
             {
-                cout << "Your Post(s): " << endl;
-                printUserPost();
+                int userPostOption = printUserPost();
+                if (userPostOption == 0) {
+                    break;//stop if statement
+                }
+                else 
+                {
+                    modifyPost(userPostOption);
+                }
             }
             else if (forumMenuOption == "0") {
                 //Exit
@@ -370,7 +503,8 @@ bool login()
     cin >> password;
 
     if (d.find(username)) {
-        if (d.get(username) == password) {
+        string userpwd = d.get(username);
+        if (userpwd == password) {
             cout << "\nLogin Successful. Welcome, " << username << endl;
             Account acc(username, password);
             currentUser.setUsername(username);
