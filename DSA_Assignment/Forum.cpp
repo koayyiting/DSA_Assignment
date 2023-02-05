@@ -25,6 +25,33 @@ void Forum::addPost(string topicTitle, string postTitle, string content, string 
     }
 }
 
+void Forum::editPost(int postIndex,string topicTitle, string postTitle, string content, string postTime, string username)
+{
+    for (int i = 0; i < topiclist.getLength(); i++) {
+        topic = topiclist.get(i);
+        if (topic.getTopicTitle() == topicTitle) {
+            Post post(postTitle, content, postTime, username);
+            postlist.replace(postIndex,post);
+            topic.editPost(postIndex, post);
+            topiclist.replace(i, topic);
+            break;
+        }
+    }
+}
+
+void Forum::deletePost(int postIndex, string topicTitle)
+{
+    for (int i = 0; i < topiclist.getLength(); i++) {
+        topic = topiclist.get(i);
+        if (topic.getTopicTitle() == topicTitle) {
+            postlist.remove(postIndex);
+            topic.deletePost(postIndex);
+            topiclist.replace(i, topic);
+            break;
+        }
+    }
+}
+
 void Forum::addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser) {
     for (int i = 0; i < topiclist.getLength(); i++) {
         topic = topiclist.get(i);
