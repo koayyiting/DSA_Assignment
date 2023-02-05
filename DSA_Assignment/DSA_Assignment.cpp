@@ -1,5 +1,9 @@
+//============================================================
+// Student Name & ID : Ng Zi Yi (S10222211K), Koay Yi Ting (S10221765G) 
+//      Module Group : P03
+//       Team Number : Team 8
+//===========================================================
 // DSA_Assignment.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include <string.h>
@@ -153,6 +157,36 @@ int main()
         accFile.close();
     }
 
+    string topicTitle;
+    ifstream topicFile("topics.txt");
+    // Check if the file is open
+    if (topicFile.is_open())
+    {
+        // store the entire title (including space) in one string
+        while (getline(topicFile, topicTitle))
+        {
+            // Add the topic title to the list
+            topicList.add(topicTitle);
+        }
+        // Close the file
+        topicFile.close();
+    }
+
+    //POST NOT IMPLEMENTED YET
+    //ifstream postFile("posts.txt");
+    //// Check if the file is open
+    //if (postFile.is_open())
+    //{
+    //    // Read the file line by line
+    //    while (postFile >> username >> password)
+    //    {
+    //        // Add the username and password to the dictionary
+    //        d.add(username, password);
+    //    }
+    //    // Close the file
+    //    postFile.close();
+    //}
+
 
     bool status1 = true;
     bool status2 = true;
@@ -226,6 +260,7 @@ int main()
     }
 }
 
+// Displays the main menu and returns user's option
 string displayMainMenu()
 {
     cout << "\n----------------- Main Menu -----------------" << endl;
@@ -244,6 +279,7 @@ string displayMainMenu()
     return option;
 }
 
+// Allow users to login. return true if successful login, returns false if login fails.
 bool login() 
 {
     string username, password;
@@ -272,27 +308,9 @@ bool login()
         cout << "Incorrect username or password." << endl;
         return false;
     }
-
-    /*string fileUsername, filePassword;
-    ifstream accFile("accounts.txt");
-    if (accFile.is_open()) {
-        while (accFile >> fileUsername >> filePassword) {
-            if (username == fileUsername && password == filePassword) {
-                accFile.close();
-                cout << "Login Successful. Welcome, " << username << endl;
-                return true;
-            }
-        }
-        accFile.close();
-    }
-    else {
-        cout << "Problem with opening file" << endl;
-    }
-    cout << "Incorrect username or password." << endl;
-    return false;*/
-
 }
 
+// Allows user to register for an account, checks for duplicate username and writes account info to txt file upon successful registration
 void signup()
 {
     string username, password;
@@ -324,64 +342,9 @@ void signup()
     }
     system("cls");
     cout << "Sign up is successfull!" << endl;
-    
-
-    /*ofstream accFile("accounts.txt", ios::app);
-    if (accFile.is_open())
-    {
-        accFile << username << ' ' << password << endl;
-        accFile.close();
-    }
-    else
-    {
-        cout << "Problem with opening file" << endl;
-    }
-    system("cls");
-    cout << "Sign up is successfull!" << endl;
-    main();*/
-
-    //ifstream accFile("accounts.txt");
-    //string accLine;
-    //bool flag = false;
-    //while (getline(accFile, accLine))
-    //{
-    //    stringstream ss(accLine);
-    //    string fileUsername, filePassword;
-    //    ss >> fileUsername >> filePassword;
-    //    if (fileUsername == username)
-    //    {
-    //        flag = true;
-    //        break;
-    //    }
-    //}
-    //if (flag) 
-    //{
-    //    cout << "Username is taken, choose a different username" << endl;
-    //    
-    //}
-    //else 
-    //{
-    //    cout << "Please enter your password: "; //if got time do confirm password 
-    //    getline(cin, password);
-    //    Account acc(username, password);
-    //    d.add(username, password);
-
-    //    ofstream accFile("accounts.txt", ios::app);
-    //    if (accFile.is_open())
-    //    {
-    //        accFile << username << ' ' << password << endl;
-    //        accFile.close();
-    //    }
-    //    else
-    //    {
-    //        cout << "Problem with opening file" << endl;
-    //    }
-    //    system("cls");
-    //    cout << "Sign up is successfull!" << endl;
-    //    main();
-    //}  
 }
 
+// Displays forum menu and returns user's option
 string displayForumMenu() 
 {
     cout << "\n------------------- Forum -------------------\n" << endl;
@@ -407,50 +370,75 @@ string displayForumMenu()
     return option;
 }
 
-//void createNewTopic() 
-//{
-//    string topicTitle;
-//
-//    //check if topic list is empty
-//    if (!topicList.isEmpty()) {
-//        cout << "Existing Topics:" << endl;
-//    }
-//    printTopicList(topicList);
-//	cout << "\n--------------- Create Topic ----------------" << endl;
-//
-//    //create topic object
-//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
-//    getline(cin, topicTitle);
-//
-//    //check for duplicate topic title
-//    for (int i = 0; i < topicList.getLength(); i++) {
-//        topic = topicList.get(i);
-//        if (topicTitle == topic.getTopicTitle()) {
-//            cout << "You have entered a Existing Topic Title" << endl;
-//            return;
-//        }
-//    }
-//
-//    //continue to create a topic object
-//    int topicId = topicList.getLength();
-//    
-//    Topic newTopic(topicTitle);
-//    topicList.add(newTopic);
-//    system("cls");
-//
-//    #pragma region topic id
-//    /*Topic newTopic(id,topicTitle);
-//    string id;
-//    stringstream ss;
-//    ss << topicId;
-//    ss >> id;*/
-//    #pragma endregion
-//
-//    #pragma region link on how to use for stringstream
-//    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
-//    #pragma endregion
-//}
+void createNewTopic() 
+{
+    string topicTitle;
+
+    //check if topic list is empty
+    if (!topicList.isEmpty()) {
+        cout << "Existing Topics:" << endl;
+    }
+    printTopicList(topicList);
+	cout << "\n--------------- Create Topic ----------------" << endl;
+
+    //create topic object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
+    getline(cin, topicTitle);
+
+    //check for duplicate topic title
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+        if (topicTitle == topic.getTopicTitle()) {
+            cout << "You have entered a Existing Topic Title" << endl;
+            return;
+        }
+    }
+
+    //continue to create a topic object
+    int topicId = topicList.getLength();
+    
+    Topic newTopic(topicTitle);
+    topicList.add(newTopic);
+    system("cls");
+
+    #pragma region topic id
+    /*Topic newTopic(id,topicTitle);
+    string id;
+    stringstream ss;
+    ss << topicId;
+    ss >> id;*/
+    #pragma endregion
+
+    #pragma region link on how to use for stringstream
+    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
+    #pragma endregion
+}
+
+void printTopicList(List tlist) 
+{
+    for (int i = 0; i < tlist.getLength(); i++)
+    {
+        topic = tlist.get(i);
+        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
+    }
+}
+
+void createPost() 
+{
+    string postTitle;
+    string content;
+    time_t postTime;
+
+    cout << "\n--------------- Create Topic ----------------" << endl;
+
+    //create topic object
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a Post title: "; 
+    getline(cin, postTitle);
+
+    cout << "Enter your post Content: ";
+    getline(cin, content);
 
 //void printTopicList(ListTopic tlist)
 //{
