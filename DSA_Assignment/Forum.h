@@ -23,6 +23,7 @@ public:
     void addTopic(Topic topic);
     void addPost(string topicTitle, string postTitle, string content, string postTime, string username);
     void displayTopics();
+    //void displayOwnTPosts(string username);
 
     /*void addTopic(Topic topic) {
         topiclist.add(topic);

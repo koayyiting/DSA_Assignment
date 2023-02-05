@@ -69,6 +69,19 @@ void createNewTopic() {
     Topic newTopic(topicTitle);
     topicList.add(newTopic);
     forum.addTopic(newTopic);
+
+    // add new topic to topics.txt
+    /*ofstream topicFile("topics.txt", ios::app);
+    if (topicFile.is_open())
+    {
+        topicFile << topicTitle << endl;
+        topicFile.close();
+    }
+    else
+    {
+        cout << "Problem with opening file" << endl;
+    }*/
+
     system("cls");
 }
 
@@ -98,7 +111,7 @@ void createPost(int topicIndex, Account currentUser)
     string postTime;
     string username;
 
-    cout << "\n--------------- Create Topic ----------------" << endl;
+    cout << "\n--------------- Create Post ----------------" << endl;
 
     //create topic object
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -122,6 +135,29 @@ void createPost(int topicIndex, Account currentUser)
 
     //cout << "Your post is added! Time: " << postTime << endl;
 }
+
+//int viewPosts() 
+//{
+//    int option;
+//    string username = currentUser.getUsername();
+//
+//    cout << "\n--------------- Your post(s) ----------------\n" << endl;
+//    if (topicList.isEmpty())
+//    {
+//        cout << "No Post Created" << endl;
+//    }
+//    else { 
+//        forum.displayOwnTPosts(username); 
+//    }
+//
+//    //list all the topics and posts
+//    cout << "\n---------------------------------------------" << endl;
+//    cout << "[0] Back" << endl;
+//    cout << "---------------------------------------------\n" << endl;
+//    cout << "Enter a Post number to modify or Back: ";
+//    cin >> option;
+//    return option;
+//}
 
 int main()
 {
@@ -223,6 +259,7 @@ int main()
                 //status1 remain true so can loop for main menu option
             }
         }
+        // forum display
         while (status2) {
             string forumMenuOption = displayForumMenu();            
             //forum.displayTopics();
@@ -244,6 +281,7 @@ int main()
             else if (forumMenuOption == "3")
             {
                 //see user's posts
+                //viewPosts();
             }
             else if (forumMenuOption == "0") {
                 //Exit
