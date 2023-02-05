@@ -19,27 +19,16 @@ private:
     // functions (methods)
 public:
     Topic();	                    // default constructor
-    Topic(string);	        // parameterized constructor
-    ListPost getPostList() { return postlist; }
-    void setTopicTitle(string);     // set topic name
+    Topic(string title);	        // parameterized constructor
+    ListPost getPostList();
+    void setTopicTitle(string title);     // set topic name
     string getTopicTitle();         // get topic name
     //void addPost(string tp, string c, string pt) {
     //    Post post(tp, c, pt);
     //    postlist.add(post);
     //}
-    void addPost(Post post) {
-        postlist.add(post);
-    }
-    void displayPost(ListPost postlist) {
-        //cout << "Topic: " << title << endl;
-        for (int i = 0;i < postlist.getLength(); i++) {
-            Post post = postlist.get(i);
-            cout << "     Title: " << post.getPostTitle() << endl;
-            cout << "     Content: " << post.getPostContent() << endl;
-            cout << "     Datetime: " << post.getPostTime() << endl;
-            cout << "     Username: " << post.getUsername() << endl;
-        }
-    }
+    void addPost(Post post);
+    void displayPost(ListPost postlist);
 };
     //void addPost(const Post &posts){ post.push_back(posts); }
 

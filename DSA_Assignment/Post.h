@@ -16,13 +16,13 @@ private:
 // functions (methods)
 public:
     Post();	                      
-    Post(string, string, string, string);
-    void setPostTitle(string);    
+    Post(string tp, string c, string pt, string un);
+    void setPostTitle(string t);    
     string getPostTitle();        
-    void setPostContent(string);  
+    void setPostContent(string c);  
     string getPostContent();      
-    void setPostTime(string);     
+    void setPostTime(string pt);     
     string getPostTime();
-    void setUsername(string);
+    void setUsername(string un);
     string getUsername();
 };
