@@ -4,14 +4,12 @@
 #include "Topic.h"
 using namespace std;
 
-typedef Topic TItemType;
-
-class List
+class ListTopic
 {
 private:
 	struct Node
 	{
-		TItemType item;	// data item
+		Topic item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
@@ -19,7 +17,7 @@ private:
 	int  size;			// number of items in the list
 
 public:
-	List();			// constructor
+	ListTopic();			// constructor
 
 	//~List();		// destructor
 
@@ -27,14 +25,14 @@ public:
 	// pre : size < MAX_SIZE
 	// post: item is added to the back of the list
 	//       size of list is increased by 1
-	bool add(TItemType item);
+	bool add(Topic item);
 
 	// add an item at a specified position in the list (insert)
 	// pre : 0 <= index <= size
 	// post: item is added to the specified position in the list
 	//       items after the position are shifted back by 1 position
 	//       size of list is increased by 1
-	bool add(int index, TItemType item);
+	bool add(int index, Topic item);
 
 	// remove an item at a specified position in the list
 	// pre : 0 <= index < size
@@ -47,7 +45,7 @@ public:
 	// pre : 0 <= index < size
 	// post: none
 	// return the item in the specified index of the list
-	TItemType get(int index);
+	Topic get(int index);
 
 	// check if the list is empty
 	// pre : none
@@ -66,7 +64,9 @@ public:
 	// display the items in the list
 	void print();
 
-	// void replace(int index, ItemType item);
+	 void replace(int index, Topic item);
 	// int search(ItemType item);
+
+	/*void update(string postTitle, string updatedTitle, string updatedContent, string updatedPostTime);*/
 };
 
