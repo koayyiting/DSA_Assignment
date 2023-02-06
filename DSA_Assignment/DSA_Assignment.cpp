@@ -334,7 +334,7 @@ void deletePost(int postOption) {
     //post.setPostTitle(postTitle);
     //post.setPostContent(content);
     topic.getPostList().remove(postOption - 1);
-    topicList.remove(postOption - 1);
+    topicList.replace(postOption - 1,topic);
     postList.remove(postOption - 1);
     forum.deletePost(postOption - 1, topic.getTopicTitle());
 
