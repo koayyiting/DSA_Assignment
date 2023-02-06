@@ -1,0 +1,3 @@
+Stacks,qn abt LIFO,what does LIFO stand for,07 Feb 2023 04:33:46,ziyi
+Stacks,what are some irl examples of a stack,are plates stacked over one another an irl example of a stack,07 Feb 2023 04:36:42,yiting
+Linked List,qn abt linked list,is linked list a linear data structure,07 Feb 2023 04:40:19,ziyi
