@@ -95,7 +95,7 @@ void Forum::displayTopics()
 {
     for (int i = 0; i < topiclist.getLength(); i++) {
         topic = topiclist.get(i);
-        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
+        cout << i + 1 << ". Topic: " << topic.getTopicTitle() << endl;
         ListPost postlist = topic.getPostList();
         if (!postlist.isEmpty()) { cout << "   Post: " << endl; }
         for (int j = 0; j < postlist.getLength(); j++) {
@@ -107,7 +107,7 @@ void Forum::displayTopics()
             if (!replylist.isEmpty()) { cout << "      Reply: " << endl; }
             for (int k = 0; k < replylist.getLength(); k++) {
                 Reply reply = replylist.get(k);
-                cout << "      " << k + 1 << ". " << reply.getReplyContent() << endl;
+                cout << "      " << k + 1 << ". " << reply.getReplyContent() << "\n" << endl;
             }   
         }
     }
@@ -135,6 +135,69 @@ void Forum::getForum() // to put in the posts.txt file
         postFile.close();
     }
 }
+
+void Forum::saveForumReplies() //save replies to replies.txt
+{
+    ofstream replyFile("replies.txt");
+    if (replyFile.is_open())
+    {
+        string trTitle, prTitle, rContent, rUsername;
+
+        for (int i = 0; i < topiclist.getLength(); i++) {
+
+            topic = topiclist.get(i);
+            ListPost postlist = topic.getPostList();
+
+            for (int j = 0; j < postlist.getLength(); j++) {
+                Post post = postlist.get(j);
+
+                ListReply replylist = post.getReplyList();
+
+                for (int k = 0; k < replylist.getLength(); k++) {
+                    Reply reply = replylist.get(k);
+                    string trTitle = topic.getTopicTitle();
+                    string prTitle = post.getPostTitle();
+                    string rContent = reply.getReplyContent();
+                    string rUsername = reply.getUsername();
+                    replyFile << trTitle << "," << prTitle << "," << rContent << "," << rUsername << endl;
+                }
+            }
+        }
+        replyFile.close();
+    }
+}
+
+//void Forum::loadForumReplies()
+//{
+//    ifstream replyFile("replies.txt");
+//    if (replyFile.is_open())
+//    {
+//        string trTitle, prTitle, rContent, rUsername;
+//        while (getline(replyFile, trTitle, ',') && getline(replyFile, prTitle, ',') && getline(replyFile, rContent, ',') && getline(replyFile, rUsername, ','))
+//        {
+//            for (int i = 0; i < topiclist.getLength(); i++)
+//            {
+//                topic = topiclist.get(i);
+//                if (topic.getTopicTitle() == trTitle)
+//                {
+//                    ListPost postlist = topic.getPostList();
+//                    for (int j = 0; j < postlist.getLength(); j++)
+//                    {
+//                        Post post = postlist.get(j);
+//                        if (post.getPostTitle() == prTitle)
+//                        {
+//                            Reply newReply(rContent, rUsername);
+//                            replyList.add(newReply);
+//                            forum.addReply(trTitle, prTitle, rContent, rUsername);
+//                            post.addReply(newReply);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        replyFile.close();
+//    }
+//}
 
 //void Forum::displayOwnTPosts(string username)
 //{
