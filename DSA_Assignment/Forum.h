@@ -29,6 +29,11 @@ public:
     void addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser);
     void displayTopics();
     void getForum();
+    void saveForumReplies();
+    void searchTopic(string keyword);
+    void searchPost(string keyword);
+    void searchUser(string keyword);
+    //void loadForumReplies();
     //void displayOwnTPosts(string username);
 
     /*void addTopic(Topic topic) {

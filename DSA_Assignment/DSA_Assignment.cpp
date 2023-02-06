@@ -481,9 +481,25 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
     topicList.replace(topicIndex, topic);
     forum.addReply(topic.getTopicTitle(), post.getPostTitle(), post.getPostContent(), post.getPostTime(), post.getUsername(), content, username);
 
+    forum.saveForumReplies();
+
     //cout << "Your reply is added! Time: " << postTime << endl;
 }
 
+int searchMenu()
+{
+    int option;
+    cout << "\n------------------ Search -------------------" << endl;
+    cout << "[1] Search for a Topic" << endl;
+    cout << "[2] Search for a Post" << endl;
+    cout << "[3] Search for a User" << endl; // only displays users that have created a post
+    cout << "[0] Back" << endl;
+    cout << "---------------------------------------------\n" << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter an option: ";
+    cin >> option;
+    return option;
+}
 
 int main()
 {
@@ -553,6 +569,36 @@ int main()
         }
         // Close the file
         postFile.close();
+    }
+
+    //load replies
+    ifstream replyFile("replies.txt");
+    string trTitle, prTitle, rContent, rUsername;
+    if (replyFile.is_open())
+    {     
+        while (getline(replyFile, trTitle, ',') && getline(replyFile, prTitle, ',') && getline(replyFile, rContent, ',') && getline(replyFile, rUsername))
+        {
+            for (int i = 0; i < topicList.getLength(); i++)
+            {
+                topic = topicList.get(i);
+                if (topic.getTopicTitle() == trTitle)
+                {
+                    ListPost postlist = topic.getPostList();
+                    for (int j = 0; j < postlist.getLength(); j++)
+                    {
+                        Post post = postlist.get(j);
+                        if (post.getPostTitle() == prTitle)
+                        {
+                            Reply newReply(rContent, rUsername);
+                            replyList.add(newReply);
+                            forum.addReply(trTitle, prTitle, post.getPostContent(), post.getPostTime(), post.getUsername(), rContent, rUsername);
+                            post.addReply(newReply);
+                        }
+                    }
+                }
+            }
+        }
+        replyFile.close();
     }
 
 
@@ -657,6 +703,30 @@ int main()
                         deletePost(userPostOption);
                     }
                 }
+            }
+            else if (forumMenuOption == "4")
+            {
+                int searchOption = searchMenu();
+                string keyword;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "What do you want to search for: ";
+                getline(cin, keyword);
+                if (searchOption == 1)
+                {
+                    forum.searchTopic(keyword);
+                }
+                else if (searchOption == 2) 
+                {
+                    forum.searchPost(keyword);
+                }
+                else if (searchOption == 3)
+                {
+                    forum.searchUser(keyword);
+                }
+                else if (searchOption == 0) 
+                {
+                    break;
+                }                
             }
             else if (forumMenuOption == "0") {
                 //Exit
@@ -774,6 +844,7 @@ string displayForumMenu()
     cout << "[1] Create new topic" << endl;
     cout << "[2] Create a Post or Reply" << endl;
     cout << "[3] Your Post(s)" << endl;
+    cout << "[4] Search" << endl;
     cout << "[0] Log out" << endl;
     cout << "---------------------------------------------\n" << endl;
 

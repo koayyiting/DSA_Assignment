@@ -1,3 +1,8 @@
-t1
-t2
-topic 3
+Linked List
+Stacks
+Queues
+Dictionary
+Recursion
+Searching
+Trees
+Sorting
