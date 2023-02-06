@@ -29,6 +29,7 @@ bool ListTopic::add(Topic item)
 	return true;
 }
 
+// move the specific topic at the front of the list
 bool ListTopic::stickTopic(int index, Topic item) {
 	
 	if (index == 0) {
@@ -139,7 +140,7 @@ void ListTopic::print()
 }
 
 
-
+// replace the  item in the specified index in the list
 void ListTopic::replace(int index, Topic item) {
 	if (index < size && index >= 0) {
 		Node* current = firstNode;

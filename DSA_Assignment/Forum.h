@@ -33,6 +33,8 @@ public:
     void searchTopic(string keyword);
     void searchPost(string keyword);
     void searchUser(string keyword);
+
+    // [NOT USED]
     //void loadForumReplies();
     //void displayOwnTPosts(string username);
 

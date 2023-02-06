@@ -26,15 +26,15 @@ void Topic::deletePost(int index) {
     postlist.remove(index);
 }
 
-// display posts in topic
-void Topic::displayPost(ListPost postlist) {
-    //cout << "Topic: " << title << endl;
-    for (int i = 0; i < postlist.getLength(); i++) {
-        Post post = postlist.get(i);
-        cout << "Post " << i + 1 << ": " << endl;
-        cout << "     Title: " << post.getPostTitle() << endl;
-        cout << "     Content: " << post.getPostContent() << endl;
-        cout << "     Datetime: " << post.getPostTime() << endl;
-        cout << "     Username: " << post.getUsername() << "\n"<< endl;
-    }
-}
+// display posts in topic [NOT USED]
+//void Topic::displayPost(ListPost postlist) {
+//    //cout << "Topic: " << title << endl;
+//    for (int i = 0; i < postlist.getLength(); i++) {
+//        Post post = postlist.get(i);
+//        cout << "Post " << i + 1 << ": " << endl;
+//        cout << "     Title: " << post.getPostTitle() << endl;
+//        cout << "     Content: " << post.getPostContent() << endl;
+//        cout << "     Datetime: " << post.getPostTime() << endl;
+//        cout << "     Username: " << post.getUsername() << "\n"<< endl;
+//    }
+//}

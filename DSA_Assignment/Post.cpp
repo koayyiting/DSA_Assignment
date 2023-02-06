@@ -18,17 +18,17 @@ void Post::addReply(Reply reply) {
     replylist.add(reply);
 }
 
-// display the reply
-void Post::displayReply(ListReply replylist) {
-    if (replylist.isEmpty()) {
-        cout << endl;
-    }
-    else {
-        cout << "   Reply: " << endl;
-        for (int i = 0; i < replylist.getLength(); i++) {
-            Reply reply = replylist.get(i);
-            cout << "        Content: " << reply.getReplyContent() << endl;
-            cout << "        Username: " << reply.getUsername() << endl;
-        }
-    }   
-}
+// display the reply [NOT USED]
+//void Post::displayReply(ListReply replylist) {
+//    if (replylist.isEmpty()) {
+//        cout << endl;
+//    }
+//    else {
+//        cout << "   Reply: " << endl;
+//        for (int i = 0; i < replylist.getLength(); i++) {
+//            Reply reply = replylist.get(i);
+//            cout << "        Content: " << reply.getReplyContent() << endl;
+//            cout << "        Username: " << reply.getUsername() << endl;
+//        }
+//    }   
+//}

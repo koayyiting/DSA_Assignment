@@ -64,11 +64,10 @@ public:
 	// display the items in the list
 	void print();
 
-	 void replace(int index, Topic item);
-	// int search(ItemType item);
+	void replace(int index, Topic item);
 
+	bool stickTopic(int index, Topic item);
 
-	 bool stickTopic(int index, Topic item);
 	/*void update(string postTitle, string updatedTitle, string updatedContent, string updatedPostTime);*/
 };
 

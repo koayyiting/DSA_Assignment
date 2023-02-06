@@ -45,6 +45,7 @@ void signup();
 //void createPost();
 //void printTopicList(ListTopic tlist);
 
+// create a new topic (add in forum)
 void createNewTopic() {
     string topicTitle;
 
@@ -90,6 +91,7 @@ void createNewTopic() {
     system("cls");
 }
 
+// option to create a post or reply and return their option
 string topicOption() {
     string option;
     cout << "\n------------------- Topic -------------------\n" << endl;
@@ -111,6 +113,7 @@ string topicOption() {
     return option;
 }
 
+// display all the topics
 void displayStickTopic() {
     for (int i = 0; i < topicList.getLength(); i++) {
         topic = topicList.get(i);
@@ -118,6 +121,7 @@ void displayStickTopic() {
     }
 }
 
+// prompt for which topic that want to be pinned on top of the list
 int stickTopicMenu() {
     int stickTopic;
     cout << "\n--------------- Stick Topic ----------------\n" << endl;
@@ -128,6 +132,7 @@ int stickTopicMenu() {
     return stickTopic;
 }
 
+// create post (add in postlist, add in topic>replacing the updated topic)
 void createPost(int topicIndex, Account currentUser)
 {
     string postTitle;
@@ -190,6 +195,7 @@ void printPostList()
     }
 }
 
+// get retrieve only user's post
 ListPost getUserPost() 
 {
     if (executeOnce == false) {
@@ -271,6 +277,8 @@ int printUserPost() {
     return option;
 }
 
+
+// ask user if they want to edit or delete the post they selected
 int modifyPost(int postOption)
 {
     int option;
@@ -319,6 +327,7 @@ int modifyPost(int postOption)
     return option;
 }
 
+// editing of the post selected
 void editPost(int postOption, Account currentUser) 
 {
     string postTitle;
@@ -391,6 +400,7 @@ void editPost(int postOption, Account currentUser)
     forum.getForum();
 }
 
+// deleting the post selected
 void deletePost(int postOption) {
 
     ListPost userPost = getUserPost();
@@ -422,6 +432,7 @@ void deletePost(int postOption) {
     forum.getForum();
 }
 
+//create a new reply under which topic and post user selected
 void createReply(int topicIndex, int postIndex, Account currentUser) {
     string content;
     string username;
@@ -568,6 +579,7 @@ int main()
     bool status2 = true;
     bool status1_2 = true;
     while (status1_2) {
+        //main menu
         while (status1) {
             status2 = true;
             string mainMenuOption = displayMainMenu();
@@ -601,11 +613,13 @@ int main()
         }
         // forum display
         while (status2) {
-            string forumMenuOption = displayForumMenu();            
-            //forum.displayTopics();            
+            string forumMenuOption = displayForumMenu();       
+
+            //create new topic        
             if (forumMenuOption == "1") {
                 createNewTopic();
             }
+            //create a post or reply
             else if (forumMenuOption == "2")
             {
                 bool status2_2 = true;
@@ -649,6 +663,7 @@ int main()
                     }
                 }
             }
+            //display users post | modify user's post
             else if (forumMenuOption == "3")
             {
                 int userPostOption = printUserPost();
@@ -666,6 +681,7 @@ int main()
                     }
                 }
             }
+            //search for topic/post/user
             else if (forumMenuOption == "4")
             {
                 int searchOption = searchMenu();
@@ -690,6 +706,7 @@ int main()
                     break;
                 }                
             }
+            //stick post
             else if (forumMenuOption == "5") {
                 int topicIndex = stickTopicMenu();
                 Topic stickTopic = topicList.get(topicIndex - 1);
@@ -698,6 +715,7 @@ int main()
                 displayStickTopic();
                 cout << "\n--------------------------------------------\n" << endl;
             }
+            //log out of forum
             else if (forumMenuOption == "0") {
                 //Exit
                 cout << "Logged Out" << endl;
