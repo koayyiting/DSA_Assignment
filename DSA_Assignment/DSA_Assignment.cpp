@@ -22,7 +22,6 @@
 
 using namespace std;
 
-
 Dictionary d;
 ListTopic topicList;
 ListPost postList;
@@ -30,6 +29,7 @@ ListReply replyList;
 //Forum ForumTopicList;
 
 ListPost userPost;
+bool executeOnce = false;
 
 Forum forum;
 Topic topic;
@@ -115,23 +115,27 @@ void createPost(int topicIndex, Account currentUser)
 {
     string postTitle;
     string content;
-    string postTime;
+    //string postTime;
     string username;
 
     cout << "\n--------------- Create Post ----------------" << endl;
 
     //create topic object
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a Post title: ";
+    cout << "Enter a Post Title: ";
     getline(cin, postTitle);
 
-    cout << "Enter your post Content: ";
+    cout << "Enter your Post Content: ";
     getline(cin, content);
 
-    cout << "Enter your post Time: ";
-    //time_t ct = time(0);
-    //postTime = ctime(&ct);
-    getline(cin, postTime);
+    time_t currentDateTime; 
+    struct tm ti;
+    char buffer[30];
+
+    time(&currentDateTime);
+    localtime_s(&ti,&currentDateTime);
+    strftime(buffer, sizeof(buffer), "%d %b %Y %T", &ti);
+    string postTime(buffer);
 
     username = currentUser.getUsername();
     
@@ -171,19 +175,51 @@ void printPostList()
 
 ListPost getUserPost() 
 {
-    
-    for (int i = 0; i < topicList.getLength(); i++) {
-        topic = topicList.get(i);
-        for (int j = 0; j < topic.getPostList().getLength(); j++)
-        {
-            post = topic.getPostList().get(j);
-            if (post.getUsername() == currentUser.getUsername()) {
-                userPost.add(post);
+    if (executeOnce == false) {
+        for (int i = 0; i < topicList.getLength(); i++) {
+            topic = topicList.get(i);
+            for (int j = 0; j < topic.getPostList().getLength(); j++)
+            {
+                post = topic.getPostList().get(j);
+                if (post.getUsername() == currentUser.getUsername()) {
+                    userPost.add(post);
+                    executeOnce = true;
+                    
+                }
             }
         }
+        return userPost;
     }
-    return userPost;
+    else {
+        for (int i = 0; i < topicList.getLength(); i++) {
+            topic = topicList.get(i);
+            for (int j = 0; j < topic.getPostList().getLength(); j++)
+            {
+                post = topic.getPostList().get(j);
+                if (post.getUsername() == currentUser.getUsername()) {
+                    return userPost;
+                }
+            }
+        }
+        return userPost;
+    }
 }
+
+//ListPost getUserPost()
+//{
+//    for (int i = 0; i < topicList.getLength(); i++) {
+//        topic = topicList.get(i);
+//        for (int j = 0; j < topic.getPostList().getLength(); j++)
+//        {
+//            post = topic.getPostList().get(j);
+//            if (post.getUsername() == currentUser.getUsername()) {
+//                userPost.add(post);
+//                
+//            }
+//        }
+//    }
+//    return userPost;
+//}
 
 //display only user post
 int printUserPost() {
@@ -295,9 +331,18 @@ void editPost(int postOption, Account currentUser)
     }
     else if (contentChange == "y") {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Enter a new post Content: ";
+        cout << "Enter a new Post Content: ";
         getline(cin, content);
     }
+
+    time_t currentDateTime;
+    struct tm ti;
+    char buffer[30];
+
+    time(&currentDateTime);
+    localtime_s(&ti, &currentDateTime);
+    strftime(buffer, sizeof(buffer), "%d %b %Y %T", &ti);
+    string timeChange;
 
     ListPost userPost = getUserPost();
 
@@ -311,7 +356,7 @@ void editPost(int postOption, Account currentUser)
         for (int j = 0; j < topic.getPostList().getLength(); j++) {
             post = topic.getPostList().get(j);
             if (selectedPost.getUsername() == currentUser.getUsername() && selectedPost.getPostTitle() == post.getPostTitle()) {
-                Post editedPost(postTitle, content, "2.30pm", currentUser.getUsername());
+                Post editedPost(postTitle, content, timeChange, currentUser.getUsername());
                 //replace post
                 topic.getPostList().replace(j, editedPost);
                 //replace topic
@@ -325,8 +370,6 @@ void editPost(int postOption, Account currentUser)
         }
     }
 
-
-    
     //post = topic.getPostList().get(postOption - 1);
     ////post.setPostTitle(postTitle);
     ////post.setPostContent(content);
@@ -398,7 +441,9 @@ void deletePost(int postOption) {
         for (int j = 0; j < topic.getPostList().getLength(); j++) {
             post = topic.getPostList().get(j);
             if (selectedPost.getUsername() == currentUser.getUsername() && selectedPost.getPostTitle() == post.getPostTitle()) {
-                topic.getPostList().remove(j);
+                ListPost postList = topic.getPostList();
+                postList.remove(j);
+                topic.setPostList(postList);
                 topicList.replace(i, topic);
                 postList.remove(j);
                 forum.deletePost(j, topic.getTopicTitle());
@@ -427,8 +472,13 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
 
     Reply newReply(content, username);
     Topic topic = topicList.get(topicIndex);
-    Post post = topic.getPostList().get(postIndex);
+    ListPost pl = topic.getPostList();
+    Post post = pl.get(postIndex);
     replyList.add(newReply);
+    post.addReply(newReply);
+    pl.replace(postIndex, post);
+    topic.setPostList(pl);
+    topicList.replace(topicIndex, topic);
     forum.addReply(topic.getTopicTitle(), post.getPostTitle(), post.getPostContent(), post.getPostTime(), post.getUsername(), content, username);
 
     //cout << "Your reply is added! Time: " << postTime << endl;
@@ -437,22 +487,6 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
 
 int main()
 {
-    //Topic t1("Linked List");
-    //Topic t2("DSA");
-    //forum.addTopic(t1);
-    //forum.addTopic(t2);
-    //Post p1("Post 1", "Content 1", "MON");
-    //Post p2("Post 2", "Content 2", "TUES");
-    //Post p3("Post 3", "Content 3", "WED");
-    //t1.addPost(p1);
-    //t1.addPost(p2);
-    //t2.addPost(p3);
-    //forum.addPost(t1.getTopicTitle(), p1.getPostTitle(), p1.getPostContent(), p1.getPostTime());
-    //forum.addPost(t1.getTopicTitle(), p2.getPostTitle(), p2.getPostContent(), p2.getPostTime());
-    //forum.addPost(t2.getTopicTitle(), p3.getPostTitle(), p3.getPostContent(), p3.getPostTime());
-    //forum.displayTopics();
-
-
     string username;
     string password;
     ifstream accFile("accounts.txt");
