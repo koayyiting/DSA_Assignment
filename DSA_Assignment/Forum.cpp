@@ -74,6 +74,7 @@ void Forum::displayTopics()
             Post post = postlist.get(j);
             cout << "   " << j + 1 << ". Title: " << post.getPostTitle() << endl;
             cout << "      Content: " << post.getPostContent() << endl;
+            cout << "      Username: " << post.getUsername() << "\n" << endl;
             ListReply replylist = post.getReplyList();
             if (!replylist.isEmpty()) { cout << "      Reply: " << endl; }
             for (int k = 0; k < replylist.getLength(); k++) {
