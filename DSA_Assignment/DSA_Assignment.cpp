@@ -88,8 +88,8 @@ void createNewTopic() {
     system("cls");
 }
 
-int topicOption() {
-    int option;
+string topicOption() {
+    string option;
     cout << "\n------------------- Topic -------------------\n" << endl;
     if (topicList.isEmpty())
     {
@@ -497,37 +497,46 @@ int main()
             }
             else if (forumMenuOption == "2")
             {
-                /*bool status2_2 = true;
-                while (status2_2) {*/
-                //choose a topic to see
-                int topicMenuOption = topicOption();
-                if (topicMenuOption == 0) {
-                    //status2_2 = false;
+                bool status2_2 = true;
+                if (topicList.isEmpty()) {
+                    cout << "Please create a topic before a post or reply" << endl;
+                    status2_2 = false;
                 }
-                else if (topicMenuOption == 1) {
-                    int topicIndex;
-                    cout << "Please Enter a Topic number: ";
-                    cin >> topicIndex;
-                    createPost(topicIndex-1, currentUser);
-                }
-                else if (topicMenuOption == 2) {
-                    if (!postList.isEmpty()) {
+                while (status2_2) {
+                    //choose a topic to see
+                    string topicMenuOption = topicOption();
+                    if (topicMenuOption == "0") {
+                        status2_2 = false;
+                    }
+                    else if (topicMenuOption == "1") {
                         int topicIndex;
-                        int postIndex;
                         cout << "Please Enter a Topic number: ";
                         cin >> topicIndex;
-                        cout << "Please Enter the Post number of the Topic: ";
-                        cin >> postIndex;
-                        createReply(topicIndex-1, postIndex-1, currentUser);
+                        if (topicIndex - 1 <= topicList.getLength() && topicIndex != 0) {
+                            createPost(topicIndex - 1, currentUser);
+                            status2_2 = false;
+                        }
+                        else { cout << "Please enter a valid topic number." << endl; }
+                    }
+                    else if (topicMenuOption == "2") {
+                        if (!postList.isEmpty()) {
+                            int topicIndex;
+                            int postIndex;
+                            cout << "Please Enter a Topic number: ";
+                            cin >> topicIndex;
+                            cout << "Please Enter the Post number of the Topic: ";
+                            cin >> postIndex;
+                            createReply(topicIndex - 1, postIndex - 1, currentUser);
+                        }
+                        else {
+                            cout << "There is no post to reply to" << endl;
+                        }
+                        status2_2 = false;
                     }
                     else {
-                        cout << "There is no post to reply to" << endl;
+                        cout << "Please Enter a Valid Option!" << endl;
                     }
                 }
-                else {
-                    cout << "Please Enter a Valid Option!" << endl;
-                }
-                
             }
             else if (forumMenuOption == "3")
             {
@@ -660,8 +669,8 @@ string displayForumMenu()
     //list all the topics and posts
     cout << "\n---------------------------------------------" << endl;
     cout << "[1] Create new topic" << endl;
-    cout << "[2] Choose a topic" << endl;
-    cout << "[3] Your post(s)" << endl;
+    cout << "[2] Create a Post or Reply" << endl;
+    cout << "[3] Your Post(s)" << endl;
     cout << "[0] Log out" << endl;
     cout << "---------------------------------------------\n" << endl;
 
