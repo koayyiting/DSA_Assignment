@@ -18,6 +18,7 @@ void Post::addReply(Reply reply) {
     replylist.add(reply);
 }
 
+// display the reply
 void Post::displayReply(ListReply replylist) {
     if (replylist.isEmpty()) {
         cout << endl;

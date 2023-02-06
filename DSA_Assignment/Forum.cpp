@@ -9,6 +9,7 @@ Forum::Forum(ListTopic topiclist) : topiclist(topiclist) { }
 
 void Forum::addTopic(Topic topic) { topiclist.add(topic); }
 
+// add the post to the topic
 void Forum::addPost(string topicTitle, string postTitle, string content, string postTime, string username)
 { 
     for (int i = 0; i < topiclist.getLength(); i++) {
@@ -26,6 +27,7 @@ void Forum::addPost(string topicTitle, string postTitle, string content, string 
     }
 }
 
+// edit the post
 void Forum::editPost(int postIndex,string topicTitle, string postTitle, string content, string postTime, string username)
 {
     for (int i = 0; i < topiclist.getLength(); i++) {
@@ -40,6 +42,7 @@ void Forum::editPost(int postIndex,string topicTitle, string postTitle, string c
     }
 }
 
+// delete the post 
 void Forum::deletePost(int postIndex, string topicTitle)
 {
     for (int i = 0; i < topiclist.getLength(); i++) {
@@ -53,6 +56,7 @@ void Forum::deletePost(int postIndex, string topicTitle)
     }
 }
 
+// add a reply to the post
 void Forum::addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser) {
     for (int i = 0; i < topiclist.getLength(); i++) {
         topic = topiclist.get(i); //i is index of topic
@@ -75,22 +79,7 @@ void Forum::addReply(string topicTitle, string postTitle, string content, string
     }
 }
 
-//void Forum::displayTopics() 
-//{
-//    for (int i = 0; i < topiclist.getLength(); i++) {
-//        topic = topiclist.get(i);
-//        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
-//        ListPost postlist = topic.getPostList();
-//        topic.displayPost(postlist);
-//        for (int j = 0; j < postlist.getLength(); j++) {
-//            Post post = postlist.get(j);
-//            //cout << "\t" << j + 1 << ". " << post.getPostTitle() << endl;
-//            ListReply replylist = post.getReplyList();
-//            post.displayReply(replylist);
-//        }
-//    }
-//}
-
+// display forum topics and its posts and replies
 void Forum::displayTopics()
 {
     for (int i = 0; i < topiclist.getLength(); i++) {
@@ -115,7 +104,8 @@ void Forum::displayTopics()
     }
 }
 
-void Forum::getForum() // to put in the posts.txt file
+// to save in the posts.txt file
+void Forum::getForum() 
 {
     ofstream postFile("posts.txt");
     if (postFile.is_open())
@@ -169,6 +159,7 @@ void Forum::saveForumReplies() //save replies to replies.txt
     }
 }
 
+// searches for keyword in topic and displays result
 void Forum::searchTopic(string keyword)
 {
     int foundTopic = 0;
@@ -202,7 +193,7 @@ void Forum::searchTopic(string keyword)
     cout << endl;
 }
 
-// searches for keyword in post content or post title
+// searches for keyword in post content or post title and displays result
 void Forum::searchPost(string keyword)
 {
     int foundPost = 0;
@@ -236,6 +227,7 @@ void Forum::searchPost(string keyword)
     
 }
 
+// searches for keyword in username and displays result
 void Forum::searchUser(string keyword) 
 {
     int foundUser = 0;
