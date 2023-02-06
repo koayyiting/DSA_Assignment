@@ -362,6 +362,8 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
     replyList.add(newReply);
     forum.addReply(topic.getTopicTitle(), post.getPostTitle(), post.getPostContent(), post.getPostTime(), post.getUsername(), content, username);
 
+    forum.saveForumReplies();
+
     //cout << "Your reply is added! Time: " << postTime << endl;
 }
 
@@ -450,6 +452,36 @@ int main()
         }
         // Close the file
         postFile.close();
+    }
+
+    //load replies
+    ifstream replyFile("replies.txt");
+    string trTitle, prTitle, rContent, rUsername;
+    if (replyFile.is_open())
+    {     
+        while (getline(replyFile, trTitle, ',') && getline(replyFile, prTitle, ',') && getline(replyFile, rContent, ',') && getline(replyFile, rUsername))
+        {
+            for (int i = 0; i < topicList.getLength(); i++)
+            {
+                topic = topicList.get(i);
+                if (topic.getTopicTitle() == trTitle)
+                {
+                    ListPost postlist = topic.getPostList();
+                    for (int j = 0; j < postlist.getLength(); j++)
+                    {
+                        Post post = postlist.get(j);
+                        if (post.getPostTitle() == prTitle)
+                        {
+                            Reply newReply(rContent, rUsername);
+                            replyList.add(newReply);
+                            forum.addReply(trTitle, prTitle, post.getPostContent(), post.getPostTime(), post.getUsername(), rContent, rUsername);
+                            post.addReply(newReply);
+                        }
+                    }
+                }
+            }
+        }
+        replyFile.close();
     }
 
 
