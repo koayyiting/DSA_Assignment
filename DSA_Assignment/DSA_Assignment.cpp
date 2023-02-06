@@ -436,6 +436,20 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
     //cout << "Your reply is added! Time: " << postTime << endl;
 }
 
+int searchMenu()
+{
+    int option;
+    cout << "\n------------------ Search -------------------" << endl;
+    cout << "[1] Search for a Topic" << endl;
+    cout << "[2] Search for a Post" << endl;
+    cout << "[3] Search for a User" << endl; // only displays users that have created a post
+    cout << "[0] Back" << endl;
+    cout << "---------------------------------------------\n" << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter an option: ";
+    cin >> option;
+    return option;
+}
 
 int main()
 {
@@ -656,6 +670,30 @@ int main()
                     }
                 }
             }
+            else if (forumMenuOption == "4")
+            {
+                int searchOption = searchMenu();
+                string keyword;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "What do you want to search for: ";
+                getline(cin, keyword);
+                if (searchOption == 1)
+                {
+                    forum.searchTopic(keyword);
+                }
+                else if (searchOption == 2) 
+                {
+                    forum.searchPost(keyword);
+                }
+                else if (searchOption == 3)
+                {
+                    forum.searchUser(keyword);
+                }
+                else if (searchOption == 0) 
+                {
+                    break;
+                }                
+            }
             else if (forumMenuOption == "0") {
                 //Exit
                 cout << "Logged Out" << endl;
@@ -772,6 +810,7 @@ string displayForumMenu()
     cout << "[1] Create new topic" << endl;
     cout << "[2] Create a Post or Reply" << endl;
     cout << "[3] Your Post(s)" << endl;
+    cout << "[4] Search" << endl;
     cout << "[0] Log out" << endl;
     cout << "---------------------------------------------\n" << endl;
 

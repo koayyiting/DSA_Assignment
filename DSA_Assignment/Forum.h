@@ -30,6 +30,9 @@ public:
     void displayTopics();
     void getForum();
     void saveForumReplies();
+    void searchTopic(string keyword);
+    void searchPost(string keyword);
+    void searchUser(string keyword);
     //void loadForumReplies();
     //void displayOwnTPosts(string username);
 
