@@ -1,6 +1,7 @@
 // Forum.cpp – Implementation
 
 #include "Forum.h"
+#include <fstream>
 
 Forum::Forum() { }
 
@@ -109,6 +110,29 @@ void Forum::displayTopics()
                 cout << "      " << k + 1 << ". " << reply.getReplyContent() << endl;
             }   
         }
+    }
+}
+
+void Forum::getForum() // to put in the posts.txt file
+{
+    ofstream postFile("posts.txt");
+    if (postFile.is_open())
+    {
+        for (int i = 0; i < topiclist.getLength(); i++) {
+
+            topic = topiclist.get(i);
+            ListPost postlist = topic.getPostList();
+            for (int j = 0; j < postlist.getLength(); j++) {// for each post in topic
+                Post post = postlist.get(j);
+                string tTitle = topic.getTopicTitle();
+                string pTitle = post.getPostTitle();
+                string pContent = post.getPostContent();
+                string pTime = post.getPostTime();
+                string pUsername = post.getUsername();
+                postFile << tTitle << "," << pTitle << "," << pContent << "," << pTime << "," << pUsername << endl;
+            }            
+        }
+        postFile.close();
     }
 }
 

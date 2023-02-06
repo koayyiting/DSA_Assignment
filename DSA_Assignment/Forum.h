@@ -28,6 +28,7 @@ public:
     void deletePost(int postIndex, string topicTitle);
     void addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser);
     void displayTopics();
+    void getForum();
     //void displayOwnTPosts(string username);
 
     /*void addTopic(Topic topic) {
