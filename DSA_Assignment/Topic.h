@@ -25,6 +25,8 @@ public:
     //    postlist.add(post);
     //}
     void addPost(Post post);
+    void editPost(int index, Post post);
+    void deletePost(int index);
     void displayPost(ListPost postlist);
     /*void displayOwnPost(ListPost postlist, string username);
     bool displayOwnPostCheck(ListPost postlist, string username);*/

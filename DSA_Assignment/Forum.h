@@ -24,6 +24,8 @@ public:
 
     void addTopic(Topic topic);
     void addPost(string topicTitle, string postTitle, string content, string postTime, string username);
+    void editPost(int postIndex, string topicTitle, string postTitle, string content, string postTime, string username);
+    void deletePost(int postIndex, string topicTitle);
     void addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser);
     void displayTopics();
     //void displayOwnTPosts(string username);
