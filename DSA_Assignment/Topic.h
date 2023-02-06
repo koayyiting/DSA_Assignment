@@ -18,6 +18,7 @@ public:
     Topic();	                    // default constructor
     Topic(string title);	        // parameterized constructor
     ListPost getPostList();
+    void setPostList(ListPost pl);
     void setTopicTitle(string title);     // set topic name
     string getTopicTitle();         // get topic name
     //void addPost(string tp, string c, string pt) {

@@ -8,6 +8,8 @@ Topic::Topic(string t) : title(t) { }
 
 ListPost Topic::getPostList() { return postlist; }
 
+void Topic::setPostList(ListPost pl) { postlist = pl; }
+
 void Topic::setTopicTitle(string t) { title = t; }
 
 string Topic::getTopicTitle() { return title; }
