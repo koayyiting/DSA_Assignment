@@ -111,6 +111,23 @@ string topicOption() {
     return option;
 }
 
+void displayStickTopic() {
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+        cout << i + 1 << ". " << "Topic: " << topic.getTopicTitle() << endl;
+    }
+}
+
+int stickTopicMenu() {
+    int stickTopic;
+    cout << "\n--------------- Stick Topic ----------------\n" << endl;
+    displayStickTopic();
+    cout << "\n--------------------------------------------\n" << endl;
+    cout << "Enter a topic you want to pin: ";
+    cin >> stickTopic;
+    return stickTopic;
+}
+
 void createPost(int topicIndex, Account currentUser)
 {
     string postTitle;
@@ -728,6 +745,14 @@ int main()
                     break;
                 }                
             }
+            else if (forumMenuOption == "5") {
+                int topicIndex = stickTopicMenu();
+                Topic stickTopic = topicList.get(topicIndex - 1);
+                topicList.stickTopic(topicIndex-1, stickTopic);
+                cout << "\n--------------- Stick Topic ----------------\n" << endl;
+                displayStickTopic();
+                cout << "\n--------------------------------------------\n" << endl;
+            }
             else if (forumMenuOption == "0") {
                 //Exit
                 cout << "Logged Out" << endl;
@@ -750,7 +775,7 @@ string displayMainMenu()
     cout << "Welcome to C++ forum" << endl;
     cout << "[1] Log in" << endl;
     cout << "[2] Sign up" << endl;
-    cout << "[3] print accounts (delete ltr)" << endl;
+    //cout << "[3] print accounts (delete ltr)" << endl;
     cout << "[0] Exit program" << endl;
     cout << "---------------------------------------------\n" << endl;
 
@@ -845,6 +870,7 @@ string displayForumMenu()
     cout << "[2] Create a Post or Reply" << endl;
     cout << "[3] Your Post(s)" << endl;
     cout << "[4] Search" << endl;
+    cout << "[5] Pin topic" << endl;
     cout << "[0] Log out" << endl;
     cout << "---------------------------------------------\n" << endl;
 
