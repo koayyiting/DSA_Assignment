@@ -169,6 +169,22 @@ void printPostList()
     }
 }
 
+ListPost getUserPost() 
+{
+    
+    for (int i = 0; i < topicList.getLength(); i++) {
+        topic = topicList.get(i);
+        for (int j = 0; j < topic.getPostList().getLength(); j++)
+        {
+            post = topic.getPostList().get(j);
+            if (post.getUsername() == currentUser.getUsername()) {
+                userPost.add(post);
+            }
+        }
+    }
+    return userPost;
+}
+
 //display only user post
 int printUserPost() {
     int option;
@@ -188,7 +204,6 @@ int printUserPost() {
                 cout << endl;
                 flag = true;
                 postNumber += 1;
-                userPost.add(post);
             }
         }
     }
@@ -208,6 +223,8 @@ int modifyPost(int postOption)
     int option;
     bool flag = false;
     int postIndex = postOption - 1;
+
+    ListPost userPost = getUserPost();
 
     //getchosenpost: 
     Post selectedPost = userPost.get(postIndex);
@@ -282,6 +299,8 @@ void editPost(int postOption, Account currentUser)
         getline(cin, content);
     }
 
+    ListPost userPost = getUserPost();
+
     //getchosenpost: 
     Post selectedPost = userPost.get(postOption-1);
 
@@ -300,6 +319,8 @@ void editPost(int postOption, Account currentUser)
                 //replace post in postlist
                 postList.replace(j, editedPost);
                 forum.editPost(j, topic.getTopicTitle(), editedPost.getPostTitle(), editedPost.getPostContent(), editedPost.getPostTime(), editedPost.getUsername());
+                userPost.replace(postOption, editedPost);
+                break;
             }
         }
     }
@@ -365,6 +386,8 @@ void editPost(int postOption, Account currentUser)
 
 void deletePost(int postOption) {
 
+    ListPost userPost = getUserPost();
+
     //getchosenpost: 
     Post selectedPost = userPost.get(postOption - 1);
 
@@ -379,8 +402,11 @@ void deletePost(int postOption) {
                 topicList.replace(i, topic);
                 postList.remove(j);
                 forum.deletePost(j, topic.getTopicTitle());
+                userPost.remove(postOption - 1);
+                break;
             }
         }
+        break;
     }
 
     cout << "Post deleted!" << endl;
@@ -401,7 +427,7 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
 
     Reply newReply(content, username);
     Topic topic = topicList.get(topicIndex);
-    Post post = postList.get(postIndex);
+    Post post = topic.getPostList().get(postIndex);
     replyList.add(newReply);
     forum.addReply(topic.getTopicTitle(), post.getPostTitle(), post.getPostContent(), post.getPostTime(), post.getUsername(), content, username);
 
