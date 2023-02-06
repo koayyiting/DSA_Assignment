@@ -136,7 +136,21 @@ void createPost(int topicIndex, Account currentUser)
     postList.add(newPost);
     topic.addPost(newPost);
     topicList.replace(topicIndex,topic);
-    forum.addPost(topic.getTopicTitle(), newPost.getPostTitle(), newPost.getPostContent(), newPost.getPostTime(), newPost.getUsername());
+
+    string tTitle = topic.getTopicTitle();
+    string pTitle = newPost.getPostTitle();
+    string pContent = newPost.getPostContent();
+    string pTime = newPost.getPostTime();
+    string un = newPost.getUsername();
+
+    forum.addPost(tTitle, pTitle, pContent, pTime, un);
+
+    ofstream postFile("posts.txt", ios::app);
+    if (postFile.is_open())
+    {
+        postFile << tTitle << "," << pTitle << "," << pContent << "," << pTime << "," << un << endl;
+        postFile.close();
+    }
 
     //cout << "Your post is added! Time: " << postTime << endl;
 }
@@ -353,20 +367,34 @@ int main()
         topicFile.close();
     }
 
-    //POST NOT IMPLEMENTED YET
-    //ifstream postFile("posts.txt");
-    //// Check if the file is open
-    //if (postFile.is_open())
-    //{
-    //    // Read the file line by line
-    //    while (postFile >> username >> password)
-    //    {
-    //        // Add the username and password to the dictionary
-    //        d.add(username, password);
-    //    }
-    //    // Close the file
-    //    postFile.close();
-    //}
+    ifstream postFile("posts.txt");
+    string tTitle, pTitle, pContent, postTime, un;
+    // Check if the file is open
+    if (postFile.is_open())
+    {
+        // Read the file line by line
+        while (getline(postFile, tTitle, ',') && getline(postFile, pTitle, ',') && getline(postFile, pContent, ',') && getline(postFile, postTime, ',') && getline(postFile, username))
+        {
+            // create a post object and add it to the list
+            Post post(pTitle, pContent, postTime, username);
+
+            // add the post to the correct topic
+            for (int i = 0; i < topicList.getLength(); i++)
+            {
+                if (topicList.get(i).getTopicTitle() == tTitle)
+                {
+                    topicList.get(i).addPost(post);
+                    postList.add(post);
+                    topic.addPost(post);
+                    topicList.replace(i, topicList.get(i));
+                    forum.addPost(tTitle, pTitle, pContent, postTime, username);
+                    break;
+                }
+            }
+        }
+        // Close the file
+        postFile.close();
+    }
 
 
     bool status1 = true;
