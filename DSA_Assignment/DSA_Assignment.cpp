@@ -387,61 +387,8 @@ void editPost(int postOption, Account currentUser)
         }
     }
 
-    //post = topic.getPostList().get(postOption - 1);
-    ////post.setPostTitle(postTitle);
-    ////post.setPostContent(content);
-    //topic.getPostList().replace(postOption - 1, editedPost);
-    //topicList.replace(postOption - 1, topic);
-    //postList.replace(postOption - 1, editedPost);
-    //forum.editPost(postOption-1,topic.getTopicTitle(),editedPost.getPostTitle(),editedPost.getPostContent(),editedPost.getPostTime(),editedPost.getUsername());
-
     cout << "Post edited!" << endl;
     forum.getForum();
-    
-    
-    //Post editedPost = postlist.get(PostOption - 1);
-    
-
-    //Post updatedPost = postList.get(postOption - 1);
-    //updatedPost.setPostTitle(postTitle);
-    //updatedPost.setPostContent(content);
-    //postList.replace(postOption - 1, updatedPost);
-
-    //cout << "Post updated successfully." << endl;
-
-    //int option = modifyPost(postOption);
-
-    //if (option == 1) {
-    //    //Edit code
-    //    int topicIndex = 0, postIndex = postOption - 1;
-    //    for (int i = 0; i < topicList.getLength(); i++) {
-    //        topic = topicList.get(i);
-    //        if (postIndex >= topic.getPostList().getLength()) {
-    //            postIndex -= topic.getPostList().getLength();
-    //            topicIndex++;
-    //        }
-    //        else {
-    //            break;
-    //        }
-    //    }
-    //    cout << "Enter the new post title: ";
-    //    string postTitle;
-    //    getline(cin, postTitle);
-    //    cout << "Enter the new post content: ";
-    //    string postContent;
-    //    getline(cin, postContent);
-    //    string postTime;
-    //    cout << "Enter your post Time: ";
-    //    getline(cin, postTime);
-
-    //    string username = currentUser.getUsername();
-
-    //    post = topic.getPostList().get(postIndex);
-    //    post.setPostTitle(postTitle);
-    //    post.setPostContent(postContent);
-    //    topic.getPostList().replace(postIndex, post);
-    //    topicList.replace(topicIndex, topic);
-    //}
 }
 
 void deletePost(int postOption) {
@@ -503,6 +450,7 @@ void createReply(int topicIndex, int postIndex, Account currentUser) {
     //cout << "Your reply is added! Time: " << postTime << endl;
 }
 
+// display the options for searching
 int searchMenu()
 {
     int option;
@@ -518,8 +466,10 @@ int searchMenu()
     return option;
 }
 
+// main function that runs the start of program
 int main()
 {
+    // load user account info (username, password) 
     string username;
     string password;
     ifstream accFile("accounts.txt");
@@ -536,6 +486,7 @@ int main()
         accFile.close();
     }
 
+    // load forum topics
     string topicTitle;
     ifstream topicFile("topics.txt");
     // Check if the file is open
@@ -552,12 +503,13 @@ int main()
         topicFile.close();
     }
 
+    // load forum posts
     ifstream postFile("posts.txt");
     string tTitle, pTitle, pContent, postTime, un;
     // Check if the file is open
     if (postFile.is_open())
     {
-        // Read the file line by line
+        // store the entire post along with the topic title its in (including space) in one string, and seperate the variables by comma
         while (getline(postFile, tTitle, ',') && getline(postFile, pTitle, ',') && getline(postFile, pContent, ',') && getline(postFile, postTime, ',') && getline(postFile, un))
         {
             // create a post object and add it to the list
@@ -568,13 +520,6 @@ int main()
             {
                 if (topicList.get(i).getTopicTitle() == tTitle)
                 {
-                    //topicList.get(i).addPost(post);
-                    /*postList.add(post);
-                    topic.addPost(post);
-                    topicList.replace(i, topicList.get(i));
-                    forum.addPost(tTitle, pTitle, pContent, postTime, un);
-                    break;*/
-
                     Topic foundTopic = topicList.get(i);
                     foundTopic.addPost(post);
                     postList.add(post);
@@ -588,7 +533,7 @@ int main()
         postFile.close();
     }
 
-    //load replies
+    //load forum replies
     ifstream replyFile("replies.txt");
     string trTitle, prTitle, rContent, rUsername;
     if (replyFile.is_open())
@@ -728,19 +673,19 @@ int main()
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "What do you want to search for: ";
                 getline(cin, keyword);
-                if (searchOption == 1)
+                if (searchOption == 1) // search for topic
                 {
                     forum.searchTopic(keyword);
                 }
-                else if (searchOption == 2) 
+                else if (searchOption == 2) // search for post
                 {
                     forum.searchPost(keyword);
                 }
                 else if (searchOption == 3)
                 {
-                    forum.searchUser(keyword);
+                    forum.searchUser(keyword); // search for user
                 }
-                else if (searchOption == 0) 
+                else if (searchOption == 0) // back
                 {
                     break;
                 }                
@@ -881,108 +826,6 @@ string displayForumMenu()
     system("cls");
     return option;
 }
-
-//void createNewTopic() 
-//{
-//    string topicTitle;
-//
-//    //check if topic list is empty
-//    if (!topicList.isEmpty()) {
-//        cout << "Existing Topics:" << endl;
-//    }
-//    printTopicList(topicList);
-//	cout << "\n--------------- Create Topic ----------------" << endl;
-//
-//    //create topic object
-//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//    cout << "Enter a Topic name: "; //need to validate if topic is duplicated //.proper() + -whitespaces
-//    getline(cin, topicTitle);
-//
-//    //check for duplicate topic title
-//    for (int i = 0; i < topicList.getLength(); i++) {
-//        topic = topicList.get(i);
-//        if (topicTitle == topic.getTopicTitle()) {
-//            cout << "You have entered a Existing Topic Title" << endl;
-//            return;
-//        }
-//    }
-//
-//    //continue to create a topic object
-//    int topicId = topicList.getLength();
-//    
-//    Topic newTopic(topicTitle);
-//    topicList.add(newTopic);
-//    system("cls");
-//
-//    #pragma region topic id
-//    /*Topic newTopic(id,topicTitle);
-//    string id;
-//    stringstream ss;
-//    ss << topicId;
-//    ss >> id;*/
-//    #pragma endregion
-//
-//    #pragma region link on how to use for stringstream
-//    //https://www.educative.io/answers/how-to-convert-an-int-to-a-string-in-cpp
-//    #pragma endregion
-//}
-//
-//void printTopicList(List tlist) 
-//{
-//    for (int i = 0; i < tlist.getLength(); i++)
-//    {
-//        topic = tlist.get(i);
-//        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
-//    }
-//}
-//
-//void createPost() 
-//{
-//    string postTitle;
-//    string content;
-//    time_t postTime;
-//
-//    cout << "\n--------------- Create Topic ----------------" << endl;
-//
-//    //create topic object
-//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//    cout << "Enter a Post title: "; 
-//    getline(cin, postTitle);
-//
-//    cout << "Enter your post Content: ";
-//    getline(cin, content);
-
-//void printTopicList(ListTopic tlist)
-//{
-//    for (int i = 0; i < tlist.getLength(); i++)
-//    {
-//        topic = tlist.get(i);
-//        cout << i + 1 << ". " << topic.getTopicTitle() << endl;
-//    }
-//}
-
-//void createPost() 
-//{
-//    string postTitle;
-//    string content;
-//    time_t postTime;
-//
-//    cout << "\n--------------- Create Topic ----------------" << endl;
-//
-//    //create topic object
-//    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//    cout << "Enter a Post title: "; 
-//    getline(cin, postTitle);
-//
-//    cout << "Enter your post Content: ";
-//    getline(cin, content);
-//
-//    time_t now = time(0);
-//
-//    Post newPost(postTitle, content, now);
-//    //postList.push_back(newPost);
-//    system("cls");
-//}
 
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
