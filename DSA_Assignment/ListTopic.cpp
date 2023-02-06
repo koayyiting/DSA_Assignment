@@ -29,6 +29,26 @@ bool ListTopic::add(Topic item)
 	return true;
 }
 
+bool ListTopic::stickTopic(int index, Topic item) {
+	
+	if (index == 0) {
+		return true;
+	}
+	if (index < size && index > 0) {
+		Node* temp = new Node;
+		temp->item = item;
+		Node* current = firstNode;
+		for (int i = 0; i < index - 1;i++) {
+			current = current->next;
+		}
+		current->next = current->next->next;
+		temp->next = firstNode;
+		firstNode = temp;
+		return true;
+	}
+	else { return false; }
+}
+
 // add an item at a specified position in the list (insert)
 bool ListTopic::add(int index, Topic item)
 {
