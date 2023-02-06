@@ -55,11 +55,11 @@ void Forum::deletePost(int postIndex, string topicTitle)
 
 void Forum::addReply(string topicTitle, string postTitle, string content, string postTime, string postUser, string replyContent, string replyUser) {
     for (int i = 0; i < topiclist.getLength(); i++) {
-        topic = topiclist.get(i);
+        topic = topiclist.get(i); //i is index of topic
         if (topic.getTopicTitle() == topicTitle) {
             for (int j = 0; j < topic.getPostList().getLength(); j++) {
-                Post post = topic.getPostList().get(j);
-                if (post.getPostTitle() == postTitle) {
+                Post post = topic.getPostList().get(j); //j is index of post
+                if (post.getPostTitle() == postTitle && post.getPostContent() == content && post.getPostTime() == postTime) {
                     Reply reply(replyContent, replyUser);
                     post.addReply(reply);
                     topic.getPostList().replace(j, post);
@@ -102,12 +102,14 @@ void Forum::displayTopics()
             Post post = postlist.get(j);
             cout << "   " << j + 1 << ". Title: " << post.getPostTitle() << endl;
             cout << "      Content: " << post.getPostContent() << endl;
+            cout << "      Time: " << post.getPostTime() << endl;
             cout << "      Username: " << post.getUsername() << "\n" << endl;
             ListReply replylist = post.getReplyList();
             if (!replylist.isEmpty()) { cout << "      Reply: " << endl; }
             for (int k = 0; k < replylist.getLength(); k++) {
                 Reply reply = replylist.get(k);
                 cout << "      " << k + 1 << ". " << reply.getReplyContent() << endl;
+                cout << "      Username: " << reply.getUsername() << "\n" << endl;
             }   
         }
     }
