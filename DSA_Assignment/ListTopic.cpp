@@ -35,7 +35,14 @@ bool ListTopic::stickTopic(int index, Topic item) {
 	if (index == 0) {
 		return true;
 	}
-	if (index < size && index > 0) {
+	else if (index + 1 == size) {
+		Node* temp = new Node;
+		temp->item = item;
+		temp->next = firstNode;
+		firstNode = temp;
+		return true;
+	}
+	else if (index < size && index > 0) {
 		Node* temp = new Node;
 		temp->item = item;
 		Node* current = firstNode;
@@ -45,6 +52,7 @@ bool ListTopic::stickTopic(int index, Topic item) {
 		current->next = current->next->next;
 		temp->next = firstNode;
 		firstNode = temp;
+		//delete temp;
 		return true;
 	}
 	else { return false; }
