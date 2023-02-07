@@ -247,7 +247,6 @@ void Forum::searchUser(string keyword)
                 cout << "Username: " << username << endl;
                 cout << "Topic: " << topic.getTopicTitle() << endl;
                 cout << "Title: " << post.getPostTitle() << endl;
-                cout << "Title: " << post.getPostTitle() << endl;
                 cout << "Content: " << post.getPostContent() << "\n" << endl;
             }
         }
